@@ -1,6 +1,7 @@
 // Master LMT baker. Mirrors tools/mastercolor/master_lmt.py stage by stage; see that file for the
 // node evidence behind each stage. Platform independent so it can be checked on a host.
 #include "master_core.h"
+#include "mtk_gamma.h"
 #include "master_canon.h"
 #include "master_dt.h"
 
@@ -194,6 +195,10 @@ Vec3 luxInverse(const EngineData &d, const Vec3 &code) {
 
 Vec3 decode(const EngineData &d, const Key &key, const float *ipe, const Vec3 &code) {
     Vec3 lin;
+    if (!key.inputGamma.empty()) {
+        for (int c = 0; c < 3; ++c) lin[c] = inverseMtkGamma(key.inputGamma, code[c]);
+        return lin;
+    }
     switch (key.path) {
         case Path::Main:
         case Path::Preview:
@@ -870,6 +875,10 @@ bool sceneLensFor(double equivalentFocal, std::string &lens) {
 
 std::string Key::name() const {
     uint64_t h = fnv(ccm.data(), sizeof(float) * 9);
+    if (!inputGamma.empty()) {
+        h = fnv(inputGamma.data(), sizeof(float) * inputGamma.size(), h);
+        h = fnv("PME110-HLG2", 11, h);
+    }
     h = fnv(lens.data(), lens.size(), h);
     for (float v : param) if (std::isfinite(v)) h = fnv(&v, sizeof(v), h);
     if (look != "hncs") h = fnv(look.data(), look.size(), h);
@@ -968,6 +977,7 @@ bool bake(const Key &key, std::vector<float> &lut, int threads) {
     if (!engineReady()) return false;
     if (key.look == "x7u") return loadRawLmt(engineDir + "/looks/x7u.lmt", lut);
     const EngineData &d = engineData;
+    if (!key.inputGamma.empty() && !validMtkGamma(key.inputGamma)) return false;
     std::vector<float> ipe;
     const bool hncsLook = key.look == "hncs" || key.look.rfind("hncs_", 0) == 0;
     std::shared_ptr<const LookData> look;
@@ -980,7 +990,8 @@ bool bake(const Key &key, std::vector<float> &lut, int threads) {
         Vec3 pp = frontStage(front, linear);
         return hncsLook ? xform(ppToP3Scene, pp) : pp;
     };
-    Vec3 greyLin = decode(d, key, ipe.data(), {d.greyCode, d.greyCode, d.greyCode});
+    Vec3 greyLin = key.inputGamma.empty() ? decode(d, key, ipe.data(), {d.greyCode, d.greyCode, d.greyCode})
+                                         : Vec3{0.18, 0.18, 0.18};
     Vec3 greyScene = sceneOf(greyLin);
     const Vec3 &luma = hncsLook ? kP3Luma : Vec3{kProPhotoToXyz[3], kProPhotoToXyz[4], kProPhotoToXyz[5]};
     double greyY = greyScene[0] * luma[0] + greyScene[1] * luma[1] + greyScene[2] * luma[2];
@@ -1042,7 +1053,7 @@ bool bake(const Key &key, std::vector<float> &lut, int threads) {
         double code = i / double(n - 1);
         axis[i] = decode(d, key, ipe.data(), {code, code, code});
     }
-    const bool coupled = key.path == Path::Main && key.luxBlend;
+    const bool coupled = key.path == Path::Main && key.luxBlend && key.inputGamma.empty();
     auto lattice = [&](int r, int g, int b) -> Vec3 {
         if (coupled) return decode(d, key, ipe.data(), {r / double(n - 1), g / double(n - 1), b / double(n - 1)});
         return {axis[r][0], axis[g][1], axis[b][2]};
@@ -1060,7 +1071,13 @@ bool bake(const Key &key, std::vector<float> &lut, int threads) {
                     } else {
                         renderLook(lookPlan, {scene[0] * scale, scene[1] * scale, scene[2] * scale}, display);
                     }
-                    invertOutput(d, display, out);
+                    if (!key.inputGamma.empty()) {
+                        // PME110 does not apply the Ultra HDRT master tone model.
+                        // BasicTone's output is HLG; preserve the native output
+                        // conversion and the user's downstream stock controls.
+                        for (int c = 0; c < 3; ++c)
+                            out[c] = float(std::clamp(hlgOetf(std::clamp(double(display[c]), 0.0, 1.0)), 0.0, 1.0));
+                    } else invertOutput(d, display, out);
                     size_t index = (size_t(b) * n + g) * n + r;
                     for (int c = 0; c < 3; c++) lut[size_t(c) * n * n * n + index] = out[c];
                 }
@@ -1120,8 +1137,9 @@ bool blendWithStock(const Key &key, const std::vector<float> &look, const std::s
         tables.push_back(look);
         return true;
     }
-    std::vector<std::vector<float>> stock(kStockTables);
-    for (int i = 0; i < kStockTables; i++)
+    const int tableCount = key.inputGamma.empty() ? kStockTables : 4;
+    std::vector<std::vector<float>> stock(tableCount);
+    for (int i = 0; i < tableCount; i++)
         if (!readTable(stockDir + "/LMTLut" + std::to_string(i), stock[i])) return false;
     if (wt <= 0 && wc <= 0) {
         tables = std::move(stock);
@@ -1158,9 +1176,9 @@ bool blendWithStock(const Key &key, const std::vector<float> &look, const std::s
     std::vector<float> toneLookAt(nodes);
     for (size_t i = 0; i < nodes; i++) toneLookAt[i] = float(std::max(toneLook.at(luma[i]), kFloor));
 
-    tables.assign(kStockTables, std::vector<float>(3 * nodes));
+    tables.assign(tableCount, std::vector<float>(3 * nodes));
     threads = std::max(1, std::min(threads, 8));
-    for (int t = 0; t < kStockTables; t++) {
+    for (int t = 0; t < tableCount; t++) {
         std::vector<float> eStock(3 * nodes);
         for (size_t i = 0; i < 3 * nodes; i++) eStock[i] = float(hlgInverse(stock[t][i]));
         const NeutralCurve toneStock = neutral(eStock.data());
@@ -1194,11 +1212,15 @@ bool readKeyFile(const std::string &path, Key &key) {
     uint32_t count = 0;
     // MCOLKEY8: common key, the scene front stage lens, the four look parameters (NaN = default).
     uint32_t length=0;
-    bool ok=std::fread(magic,1,8,file)==8 && std::memcmp(magic,"MCOLKEY8",8)==0 &&
+    bool ok=std::fread(magic,1,8,file)==8 && (std::memcmp(magic,"MCOLKEY8",8)==0 || std::memcmp(magic,"MCOLKEY9",8)==0) &&
             std::fread(&p,4,1,file)==1 && std::fread(&cct,4,1,file)==1 &&
             std::fread(key.ccm.data(),4,9,file)==9 && std::fread(&lux,4,1,file)==1 &&
-            std::fread(&count,4,1,file)==1 && count==0 &&
-            std::fread(&length,4,1,file)==1 && length>0 && length<=64;
+            std::fread(&count,4,1,file)==1 && (count==0 || count==257);
+    if (ok && count) {
+        key.inputGamma.resize(count);
+        ok = std::memcmp(magic,"MCOLKEY9",8)==0 && std::fread(key.inputGamma.data(),4,count,file)==count && validMtkGamma(key.inputGamma);
+    }
+    ok = ok && std::fread(&length,4,1,file)==1 && length>0 && length<=64;
     if (ok) {
         key.look.assign(length,'\0');
         ok=std::fread(key.look.data(),1,length,file)==length &&

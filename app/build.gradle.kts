@@ -3,6 +3,9 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
+// Keep generated files outside an iCloud checkout when requested.
+providers.gradleProperty("museBuildDir").orNull?.let { layout.buildDirectory.set(file(it)) }
+
 android {
     namespace = "local.jiege.camera"
     compileSdk = 37
@@ -10,10 +13,10 @@ android {
 
     defaultConfig {
         applicationId = "local.jiege.camera"
-        minSdk = 28
+        minSdk = 37
         targetSdk = 35
-        versionCode = 300
-        versionName = "Muse 4.0"
+        versionCode = 40002
+        versionName = "4.0.0-x9spro.2"
         ndk { abiFilters += "arm64-v8a" }
         externalNativeBuild {
             cmake { arguments += listOf("-DANDROID_STL=c++_static") }

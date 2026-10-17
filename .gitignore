@@ -12,4 +12,8 @@
 
 # python caches
 __pycache__/
+evidence/
+dist/
+tools/gradle-home/
+tools/venv/
 *.pyc

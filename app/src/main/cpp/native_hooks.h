@@ -7,6 +7,13 @@
 
 // Inline-hook function handed to native modules by LSPosed.
 using HookFunction = int (*)(void *target, void *replacement, void **backup);
+void activateLoadedLibrariesForGr(HookFunction hook);
+unsigned grNativeHookStatus();
+unsigned grNativeFrameCount();
+std::string grNativeDiagnostics();
+void *resolveAlgoMetadata();
+void installMasterGrain(HookFunction hook, void *base);
+int processWithMasterGrain(void *frame, int stage, bool master, int (*original)(void *, int));
 
 // Installs a hook on an exported symbol and logs a miss under the given tag.
 void hookExport(HookFunction hook, void *handle, const char *symbol, void *replacement,
@@ -16,7 +23,8 @@ void hookExport(HookFunction hook, void *handle, const char *symbol, void *repla
 void installPopPathRemap(HookFunction hook);
 
 // Natural photo mode (natural_mode.cpp): the edited tuning json and the softening, both per photo.
-void onLibraryLoadedForNatural(const char *name);
+void onLibraryLoadedForNatural(HookFunction hook, const char *name, void *handle);
+void activateLoadedLibrariesForNatural(HookFunction hook);
 // Returns the path to open instead of the tuning json, or null for every other path.
 const char *naturalRemapPath(const char *path, char *buf, size_t n);
 
@@ -40,6 +48,7 @@ void onLibraryLoadedForLutSlots(HookFunction hook, const char *name, void *handl
 // Master colour (master_color.cpp).
 extern void *gAlgoInterfaceHandle;  // libAlgoInterface handle (its deps include libcamera_metadata)
 struct MasterColorCapture {
+    std::vector<float> inputGamma;
     int cct = 0;
     std::array<float, 9> ccm{};
     std::string cameraId;    // physical camera of the frame

@@ -24,6 +24,7 @@ struct Key {
     std::string lens;                // scene front stage profile name (scene.bin)
     bool luxBlend = false;           // main path: trunc(luxindex) > 280
     std::vector<float> ipeGamma;     // unused (preview decodes with the capture encoding)
+    std::vector<float> inputGamma;   // PME110 dynamic BPS gamma, nonuniform kMtkGammaX, normalised 12-bit codes
     std::string look = "hncs";       // "hncs" or a looks/<look>.bin name (lumix_*, film_*)
     float exposureEv = 0;            // user exposure compensation on the scene (EV), 0 = engine default
     // Blend mode: how much of the look replaces the stock LMT's tone and colour, 0..1 each.

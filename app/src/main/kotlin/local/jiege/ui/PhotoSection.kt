@@ -44,7 +44,7 @@ internal fun PhotoSection(store: SettingsStore, cardModifier: Modifier) {
                     store = store,
                     key = ModuleSettings.NATURAL_SOFTEN,
                     title = "进一步柔化",
-                    summary = "不作用于大师模式和理光模式",
+                    summary = "仅普通拍照；0% 保留原厂强度",
                 )
             }
         }

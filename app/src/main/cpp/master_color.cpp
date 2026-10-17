@@ -14,6 +14,7 @@
 // A missing file means HNCS, the default. Blend mode adds the tone and colour weights (percent) on
 // lines 3 and 4: the directory then holds all six LMTLut0..5, each the stock table blended with the look.
 #include <android/log.h>
+#include <jni.h>
 #include <camera/NdkCameraManager.h>
 #include <camera/NdkCameraMetadataTags.h>
 #include <dirent.h>
@@ -39,6 +40,7 @@
 #include <vector>
 
 #include "master_core.h"
+#include "mtk_gamma.h"
 #include "master_camera_id.h"
 #include "native_hooks.h"
 
@@ -288,8 +290,8 @@ std::mutex namesMutex;
 std::unordered_map<const void *, std::unordered_map<std::string, uint32_t>> namesCache;
 
 bool frameMeta(void *frame, FrameMeta &m) {
-    if (!gAlgoInterfaceHandle) return false;
-    static FindEntry find = reinterpret_cast<FindEntry>(::dlsym(gAlgoInterfaceHandle, "find_camera_metadata_ro_entry"));
+    if (!frame) return false;
+    FindEntry find = reinterpret_cast<FindEntry>(resolveAlgoMetadata());
     m.find = find;
     m.metadata = *reinterpret_cast<void **>(static_cast<char *>(frame) + 0xff8);
     const void *names = *reinterpret_cast<void **>(static_cast<char *>(frame) + 0x1180);
@@ -397,32 +399,44 @@ bool masterColorLook(std::string &look, float &exposureEv, float &toneWeight, fl
 }
 
 // Reads the per-frame inputs of a master capture. False (with a logged reason) keeps it stock.
+static bool masterCaptureFailure(const char *reason) {
+    if (FILE *file = std::fopen((std::string(kRoot) + "/capture-status").c_str(), "we")) {
+        std::fprintf(file, "stock: %s\n", reason);
+        std::fclose(file);
+    }
+    return false;
+}
+
 bool masterColorCaptureInfo(void *frame, int cctFromParams, MasterColorCapture &out) {
-    if (!engine()) return false;
+    if (!engine()) return masterCaptureFailure("colour engine unavailable");
     FrameMeta m;
     if (!frameMeta(frame, m)) {
         __android_log_print(ANDROID_LOG_ERROR, kTag, "capture: frame metadata unavailable, stock LMT");
-        return false;
+        return masterCaptureFailure("frame metadata unavailable");
     }
     RoEntry e{};
-    // A per-frame proproc gamma replaces the built-in table: its encoding is not modelled.
-    if (m.get("com.oplus.bps.gamma.info", e)) {
-        bool nonzero = false;
-        for (size_t i = 0; i < e.count && !nonzero; i++) nonzero = static_cast<const int32_t *>(e.data)[i] != 0;
-        if (nonzero) {
-            __android_log_print(ANDROID_LOG_WARN, kTag, "capture: bps.gamma.info present, stock LMT");
-            return false;
-        }
-    }
+    // Use the real frame encoding. Unknown/non-monotonic data still keeps stock LMT.
+    if (!m.get("com.oplus.bps.gamma.info", e) || e.type != ACAMERA_TYPE_INT32 ||
+        !decodeMtkGamma(static_cast<const int32_t *>(e.data), e.count, out.inputGamma))
+        return masterCaptureFailure("MTK BPS gamma unavailable or invalid");
+    if (!m.get("com.oplus.srgb.cap.gamma.info", e) || e.type != ACAMERA_TYPE_FLOAT ||
+        !std::isfinite(out.exposureEv = mtkExposureFromSrgb(static_cast<const float *>(e.data), e.count)))
+        return masterCaptureFailure("MTK metered middle grey unavailable");
     int cct = cctFromParams;
     if (cct < 1500 || cct > 20000) {
-        if (m.get("org.quic.camera2.statsconfigs.AWBFrameControlCCT", e)) cct = static_cast<const int32_t *>(e.data)[0];
+        // PME110 publishes awbCct=-1; the actual kelvin value is awbColorTemperature.
+        if (m.get("com.mediatek.3afeature.awbColorTemperature", e) && e.type == ACAMERA_TYPE_INT32 && e.count == 1)
+            cct = static_cast<const int32_t *>(e.data)[0];
     }
     if (cct < 1500 || cct > 20000) {
         __android_log_print(ANDROID_LOG_ERROR, kTag, "capture: no CCT, stock LMT");
-        return false;
+        return masterCaptureFailure("CCT unavailable");
     }
     bool haveCcm = false;
+    if (m.get("com.oplus.custom.ccm.sync.result", e) && e.type == ACAMERA_TYPE_FLOAT && e.count == 9) {
+        std::memcpy(out.ccm.data(), e.data, sizeof(float) * 9);
+        haveCcm = std::all_of(out.ccm.begin(), out.ccm.end(), [](float v) { return std::isfinite(v); });
+    }
     if (m.get("com.oplus.ofe.ccm", e) && e.count >= 40) {
         const uint8_t *b = static_cast<const uint8_t *>(e.data);
         int32_t enable;
@@ -440,7 +454,7 @@ bool masterColorCaptureInfo(void *frame, int cctFromParams, MasterColorCapture &
     }
     if (!haveCcm) {
         __android_log_print(ANDROID_LOG_ERROR, kTag, "capture: no CCM, stock LMT");
-        return false;
+        return masterCaptureFailure("CCM unavailable");
     }
     // The frame ID can be the logical camera (0); the result names the sensor used for this frame.
     int32_t frameId;
@@ -456,14 +470,14 @@ bool masterColorCaptureInfo(void *frame, int cctFromParams, MasterColorCapture &
     out.cameraId = cameraId;
     if (!cameraLens(cameraId, out.lens)) {
         __android_log_print(ANDROID_LOG_ERROR, kTag, "capture: no scene profile for camera %s (frame ID %d)", cameraId.c_str(), frameId);
-        return false;
+        return masterCaptureFailure("physical scene profile unavailable");
     }
     float lux = -1;
     if (m.get("com.oplus.rawhdr.isp.luxindex", e)) lux = static_cast<const float *>(e.data)[0];
     else if (m.get("com.qti.chi.statsaec.AecLux", e)) lux = static_cast<const float *>(e.data)[0];
     out.cct = cct;
     out.luxIndex = int(lux);  // fcvtzs, as hybridRawGetMetadataV3
-    out.luxBlend = out.luxIndex > 280;
+    out.luxBlend = out.inputGamma.empty() && out.luxIndex > 280;
     return true;
 }
 
@@ -475,6 +489,7 @@ std::string masterColorCaptureDir(const MasterColorCapture &capture, int width, 
     key.path = (long(width) * height < 4000000) ? mastercolor::Path::Thumbnail : mastercolor::Path::Main;
     key.cct = capture.cct;
     key.ccm = capture.ccm;
+    key.inputGamma = capture.inputGamma;
     key.lens = capture.lens;
     key.param = capture.param;
     key.luxBlend = key.path == mastercolor::Path::Main && capture.luxBlend;
@@ -485,6 +500,11 @@ std::string masterColorCaptureDir(const MasterColorCapture &capture, int width, 
     key.density = capture.density;
     std::string dir = std::string(kLive) + key.name();
     bool ok = ensure(dir, key);
+    if (FILE *status = std::fopen((std::string(kRoot) + "/capture-status").c_str(), "we")) {
+        std::fprintf(status, "camera=%s lens=%s cct=%d look=%s gamma=%zu baked=%d path=%s\n",
+                     capture.cameraId.c_str(), key.lens.c_str(), capture.cct, key.look.c_str(), key.inputGamma.size(), int(ok), dir.c_str());
+        std::fclose(status);
+    }
     __android_log_print(ANDROID_LOG_INFO, kTag,
                         "capture camera=%s lens=%s %dx%d look=%s tone=%.2f colour=%.2f path=%s cct=%d lux=%d blend=%d ccm=[%.4f %.4f %.4f|%.4f %.4f %.4f|%.4f %.4f %.4f] -> %s",
                         capture.cameraId.c_str(), key.lens.c_str(), width, height, key.look.c_str(), key.toneWeight, key.colourWeight, key.path == mastercolor::Path::Main ? "main" : "thumbnail", key.cct, capture.luxIndex,
@@ -521,11 +541,26 @@ const char *masterColorRemapPath(const char *path, char *buf, size_t n) {
     if (std::string_view(rest, size_t(slash - rest)).find(".tmp") != std::string_view::npos) return nullptr;
     const char *name = slash + 1;
     if (!std::strcmp(name, "LMTLut0") || !std::strcmp(name, "key.bin") || std::strstr(name, ".tmp")) return nullptr;
-    if (!std::strncmp(name, "LMTLut", 6) && name[6] >= '1' && name[6] <= '9' && name[7] == 0) {
+    // PME110's master capture uses Photo CamMode in BasicTone. It loads
+    // LMTPhotoLut0..3 in addition to LMTLut0..3, and applies the former to the
+    // frame. Both table families are planar 64-cubes on the guarded firmware.
+    const char *index = !std::strncmp(name, "LMTPhotoLut", 11) ? name + 11
+                      : !std::strncmp(name, "LMTLut", 6) ? name + 6 : nullptr;
+    if (index && index[0] >= '0' && index[0] <= '9' && index[1] == 0) {
         if (existsRaw(path)) return nullptr;  // blend mode: the six tables are all baked
+        std::snprintf(buf, n, "%.*sLMTLut%c", int(name - path), path, index[0]);
+        if (existsRaw(buf)) return buf;  // Photo LUT aliases preserve all four MTK blend tables.
         std::snprintf(buf, n, "%.*sLMTLut0", int(name - path), path);
     } else {
         std::snprintf(buf, n, "%s%s", kStockLmt, name);
     }
     return buf;
+}
+
+extern "C" JNIEXPORT jfloat JNICALL
+Java_local_jiege_hook_mastercolor_MasterColor_mtkExposure(JNIEnv *env, jclass, jfloatArray raw) {
+    if (!raw || env->GetArrayLength(raw) != 257) return NAN;
+    float data[257];
+    env->GetFloatArrayRegion(raw, 0, 257, data);
+    return mtkExposureFromSrgb(data, 257);
 }

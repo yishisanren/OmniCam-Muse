@@ -12,6 +12,8 @@ import local.jiege.hook.gallery.AddressNavigation;
 import local.jiege.hook.gallery.BatchWatermark;
 import local.jiege.hook.gallery.WatermarkSeriesUnlock;
 import local.jiege.hook.guard.UnmountedGuard;
+import local.jiege.hook.guard.DeviceGuard;
+import local.jiege.hook.guard.NativeStatus;
 import local.jiege.hook.highpixel.HighPixel200mFace;
 import local.jiege.hook.highpixel.HighPixelEffects;
 import local.jiege.hook.launch.KeyLaunchMode;
@@ -72,9 +74,11 @@ public final class ModuleEntry implements IXposedHookLoadPackage, IXposedHookZyg
 
     @Override public void initZygote(StartupParam param) {
         Symbols.setModulePath(param.modulePath);
+        DeviceGuard.load(param.modulePath);
     }
 
     @Override public void handleLoadPackage(XC_LoadPackage.LoadPackageParam param) {
+        if (!DeviceGuard.matchesDevice()) return;
         ClassLoader classLoader = param.classLoader;
         if (SYSTEM.equals(param.packageName)) {
             CameraSoundForced.installSystem(classLoader);
@@ -91,6 +95,10 @@ public final class ModuleEntry implements IXposedHookLoadPackage, IXposedHookZyg
             WatermarkSeriesUnlock.installGallery(classLoader);
             BatchWatermark.installGallery(classLoader);
         } else if (CAMERA.equals(param.packageName)) {
+            if (!DeviceGuard.cameraReady(param.appInfo.sourceDir, param.appInfo.dataDir)) {
+                Log.i("Muse", "paired MTK resources not ready; keeping stock camera behavior");
+                return;
+            }
             // Without the module's /odm files the native hooks would feed the stock libraries the
             // ported POP settings and LUTs, so the guard decides first.
             if (!UnmountedGuard.filesMounted()) {
@@ -101,6 +109,13 @@ public final class ModuleEntry implements IXposedHookLoadPackage, IXposedHookZyg
             // LSPosed calls native_init when this library is loaded; it must be registered before
             // the camera loads libAlgoInterface / libBasicTone*, so it goes before the features.
             System.loadLibrary("jiege_native");
+            de.robv.android.xposed.XposedBridge.hookAllMethods(android.app.Activity.class, "onResume",
+                new de.robv.android.xposed.XC_MethodHook() {
+                    @Override protected void afterHookedMethod(MethodHookParam hook) {
+                        new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() ->
+                            Log.guard("Muse", "native activation", () -> Log.i("Muse", NativeStatus.snapshot())), 2000);
+                    }
+                });
             Symbols.install("camera", classLoader, param.appInfo.sourceDir, param.appInfo.dataDir);
             PopPort.installCamera(classLoader, CAMERA.equals(param.processName));
             FilterGroupInjector.installCamera(classLoader);
@@ -118,7 +133,7 @@ public final class ModuleEntry implements IXposedHookLoadPackage, IXposedHookZyg
             VideoFilterHighSpec.installCamera(classLoader);
             NaturalMode.installCamera(classLoader);
             Unlock25mp.installCamera(classLoader);
-            HighPixel200mFace.installCamera(classLoader);
+            // PME110's original ALGO_HR_HQ_200M has no face condition to remove.
             ModelSpoof.installCamera(classLoader);
             XpanWatermarkIsolation.installCamera(classLoader);
             XpanLivePhoto.installCamera(classLoader);

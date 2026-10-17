@@ -289,7 +289,13 @@ final class MasterGrain {
                         Object request = XposedHelpers.getObjectField(tag, "mApsRequestTag");
                         if (request == null || !MASTER_MODE.equals(XposedHelpers.getObjectField(request, "mModeName"))) return;
                         Object filter = XposedHelpers.getObjectField(tag, "mFilterType");
-                        if (XposedHelpers.getBooleanField(tag, "mbFilterOpen") && !"default".equals(filter)) return;
+                        boolean filtered = XposedHelpers.getBooleanField(tag, "mbFilterOpen") && !"default".equals(filter);
+                        // MTK does not forward the complete generic-grain tuple for
+                        // every non-film LUT. Complete only our explicit negative
+                        // extra-grain marker, preserving the selected LUT and all
+                        // stock positive-grain paths.
+                        float marker = XposedHelpers.getFloatField(tag, "mbFilterGainAmount");
+                        if (filtered && !(marker < 0.0f && marker >= -1.0f)) return;
                         String type = currentType(symbols);
                         int amount = stored(symbols, AMOUNT_KEY, type);
                         if (amount <= 0) return;
@@ -299,7 +305,7 @@ final class MasterGrain {
                         String[] algorithms = (String[]) XposedHelpers.callMethod(meta, "get", algorithmKey);
                         if (algorithms == null) return;
                         List<String> updated = new ArrayList<>(Arrays.asList(algorithms));
-                        if (!updated.contains(FILTER_NODE)) {
+                        if (!filtered && !updated.contains(FILTER_NODE)) {
                             int insertion = updated.size();
                             for (int i = 0; i < updated.size(); i++) {
                                 if (AFTER_FILTER.contains(updated.get(i))) { insertion = i; break; }
@@ -307,7 +313,7 @@ final class MasterGrain {
                             updated.add(insertion, FILTER_NODE);
                             XposedHelpers.callMethod(meta, "setParameter", algorithmKey, (Object) updated.toArray(new String[0]));
                         }
-                        XposedHelpers.callMethod(meta, "setParameter", filterTypeKey, "");
+                        if (!filtered) XposedHelpers.callMethod(meta, "setParameter", filterTypeKey, "");
                         for (String[] entry : FILM_GRAIN) {
                             XposedHelpers.callMethod(meta, "setParameter", XposedHelpers.getStaticObjectField(keyClass, entry[0]), entry[1]);
                         }

@@ -44,14 +44,17 @@
 #include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <cstdio>
 #include <cstring>
 #include <map>
+#include <mutex>
 #include <thread>
 #include <vector>
 
 #include "native_hooks.h"
 #include "soft_light_curve.h"
 #include "soft_light_weights.h"
+#include "firmware_guard.h"
 
 namespace {
 
@@ -65,6 +68,19 @@ constexpr float kSourceGain = 2.6f;   // HDF: true light of a clipped source ove
 
 std::atomic<float> gFocalMm{0.0f};  // 0 until the zoom bar reports
 std::atomic<int> gLevels{0};  // replaced levels, bit = ProMist type; a clear bit leaves the stock soft light
+std::atomic<unsigned> gCaptureCalls{}, gCaptureApplied{};
+std::mutex gStatusMutex;
+
+void captureStatus(const SoftFilter *filter, const AHardwareBuffer_Desc &desc, int transfer, int result, bool applied) {
+    if (applied) ++gCaptureApplied;
+    std::lock_guard<std::mutex> lock(gStatusMutex);
+    if (FILE *file = std::fopen("/data/user/0/com.oplus.camera/files/jiege/soft-light-status", "we")) {
+        const char *name = filter == &kHdf ? "HDF" : filter == &kBlackMist ? "black-mist" : "white-mist";
+        std::fprintf(file, "MTK soft-light calls=%u applied=%u last=%d filter=%s format=0x%x transfer=%d size=%ux%u result=%d\n",
+                     gCaptureCalls.load(), gCaptureApplied.load(), int(applied), name, desc.format, transfer, desc.width, desc.height, result);
+        std::fclose(file);
+    }
+}
 
 // SMsEffectParam: the ProMist switch and type.
 constexpr size_t kSoftEnable = 0x48;
@@ -305,6 +321,43 @@ struct P010 {
     uint16_t *v(int x, int r) { return reinterpret_cast<uint16_t *>(static_cast<uint8_t *>(planes.planes[2].data) + size_t(r) * planes.planes[2].rowStride + size_t(x) * planes.planes[2].pixelStride); }
 };
 
+// Validate a CPU view before replacing the vendor renderer. A successful lock
+// must always be released, including malformed or unsupported plane layouts.
+class LockedP010 {
+public:
+    explicit LockedP010(AHardwareBuffer *buffer) : buffer_(buffer) {
+        AHardwareBuffer_Desc desc{};
+        AHardwareBuffer_describe(buffer, &desc);
+        if (desc.format != AHARDWAREBUFFER_FORMAT_YCbCr_P010 || desc.width < 4 || desc.height < 4 ||
+            desc.width > 32768 || desc.height > 32768 || (desc.width & 1) || (desc.height & 1)) return;
+        using LockPlanes = int (*)(AHardwareBuffer *, uint64_t, int32_t, const ARect *, AHardwareBuffer_Planes *);
+        static auto lockPlanes = reinterpret_cast<LockPlanes>(dlsym(RTLD_DEFAULT, "AHardwareBuffer_lockPlanes"));
+        if (!lockPlanes || lockPlanes(buffer, AHARDWAREBUFFER_USAGE_CPU_READ_OFTEN | AHARDWAREBUFFER_USAGE_CPU_WRITE_OFTEN,
+                                      -1, nullptr, &image.planes) != 0) return;
+        locked_ = true;
+        if (image.planes.planeCount != 3) return;
+        for (int i = 0; i < 3; ++i) {
+            const auto &plane = image.planes.planes[i];
+            unsigned width = i ? desc.width / 2 : desc.width;
+            if (!plane.data || (reinterpret_cast<uintptr_t>(plane.data) & 1) ||
+                plane.pixelStride < 2 || (plane.pixelStride & 1) || (plane.rowStride & 1) ||
+                plane.rowStride < (width - 1) * plane.pixelStride + 2) return;
+        }
+        if (image.planes.planes[0].pixelStride != 2) return;
+        image.w = int(desc.width);
+        image.h = int(desc.height);
+        valid = true;
+    }
+    ~LockedP010() { if (locked_) AHardwareBuffer_unlock(buffer_, nullptr); }
+    LockedP010(const LockedP010 &) = delete;
+    LockedP010 &operator=(const LockedP010 &) = delete;
+    P010 image;
+    bool valid = false;
+private:
+    AHardwareBuffer *buffer_;
+    bool locked_ = false;
+};
+
 inline float codeToUnit(uint16_t raw, const YuvCoding &c) { return float(c.msb ? raw >> 6 : raw & 0x3ff); }
 inline uint16_t unitToCode(float v, const YuvCoding &c) {
     int q = int(std::lround(std::clamp(v, 0.0f, 1023.0f)));
@@ -332,21 +385,10 @@ inline void rgbToYuvDelta(const float d[3], const YuvCoding &c, float &dy, float
     dv = cr * (c.full ? 1023.0f : 896.0f);
 }
 
-void scatterP010(AHardwareBuffer *ahb, const SoftFilter &filter, Transfer tr, YuvCoding coding) {
-    AHardwareBuffer_Desc desc{};
-    AHardwareBuffer_describe(ahb, &desc);
-    P010 img;
-    img.w = int(desc.width) & ~1;
-    img.h = int(desc.height) & ~1;
-    // API 29; the module's minimum is 28.
-    using LockPlanes = int (*)(AHardwareBuffer *, uint64_t, int32_t, const ARect *, AHardwareBuffer_Planes *);
-    static auto lockPlanes = reinterpret_cast<LockPlanes>(dlsym(RTLD_DEFAULT, "AHardwareBuffer_lockPlanes"));
-    if (!lockPlanes ||
-        lockPlanes(ahb, AHARDWAREBUFFER_USAGE_CPU_READ_OFTEN | AHARDWAREBUFFER_USAGE_CPU_WRITE_OFTEN, -1, nullptr, &img.planes) != 0 ||
-        img.planes.planeCount < 3) {
-        __android_log_print(ANDROID_LOG_ERROR, TAG, "capture: P010 buffer not lockable (format 0x%x)", desc.format);
-        return;
-    }
+bool scatterP010(AHardwareBuffer *ahb, const SoftFilter &filter, Transfer tr, YuvCoding coding) {
+    LockedP010 lock(ahb);
+    if (!lock.valid) return false;
+    P010 &img = lock.image;
     // 10-bit codes at the top of the word leave the low 6 bits empty.
     bool lowBits = false;
     for (int r = 0; r < img.h && !lowBits; r += 97)
@@ -453,9 +495,9 @@ void scatterP010(AHardwareBuffer *ahb, const SoftFilter &filter, Transfer tr, Yu
             *pv = unitToCode(codeToUnit(*pv, coding) + dV, coding);
         }
     });
-    AHardwareBuffer_unlock(ahb, nullptr);
     __android_log_print(ANDROID_LOG_INFO, TAG, "capture: %s P010, %d levels, %.1f%% of pixels changed", coding.msb ? "MSB" : "LSB",
                         built, 100.0 * double(changed.load()) / (double(img.w) * img.h));
+    return true;
 }
 
 // ---- preview: the same passes in Meishe's GL context -----------------------------------------
@@ -883,6 +925,28 @@ int hookHardwareBuffer(void *core, void *effect, const HardwareBufferInfo *in, u
     if (!filter || !out || !out->buffer || !transferOf(uint32_t(out->transfer), tr)) {
         return origHardwareBuffer(core, effect, in, n, out, param, metadata, flags);
     }
+    // This renderer reads 16-bit P010 plane samples. A lockable 8-bit YUV
+    // buffer also has three planes and must never be interpreted as P010.
+    AHardwareBuffer_Desc format{};
+    AHardwareBuffer_describe(out->buffer, &format);
+    ++gCaptureCalls;
+    if (format.format != AHARDWAREBUFFER_FORMAT_YCbCr_P010) {
+        __android_log_print(ANDROID_LOG_INFO, TAG, "capture: stock soft light retained for format 0x%x, transfer %d", format.format, out->transfer);
+        int result = origHardwareBuffer(core, effect, in, n, out, param, metadata, flags);
+        captureStatus(filter, format, out->transfer, result, false);
+        return result;
+    }
+    bool lockable;
+    {
+        LockedP010 preflight(out->buffer);
+        lockable = preflight.valid;
+    }
+    if (!lockable) {
+        __android_log_print(ANDROID_LOG_INFO, TAG, "capture: stock soft light retained for unsupported P010 layout");
+        int result = origHardwareBuffer(core, effect, in, n, out, param, metadata, flags);
+        captureStatus(filter, format, out->transfer, result, false);
+        return result;
+    }
     int ret;
     {
         StockSoftOff off(param);
@@ -894,10 +958,12 @@ int hookHardwareBuffer(void *core, void *effect, const HardwareBufferInfo *in, u
         __android_log_print(ANDROID_LOG_INFO, TAG, "capture %ux%u %s, focal %.0f mm", desc.width, desc.height,
                             filter == &kHdf ? "HDF" : filter == &kBlackMist ? "black mist" : "white mist", double(gFocalMm.load()));
         auto start = std::chrono::steady_clock::now();
-        scatterP010(out->buffer, *filter, tr, yuvCoding(out->matrix, out->range));
+        bool applied = scatterP010(out->buffer, *filter, tr, yuvCoding(out->matrix, out->range));
+        captureStatus(filter, desc, out->transfer, ret, applied);
+        if (!applied) __android_log_print(ANDROID_LOG_ERROR, TAG, "capture: custom soft light could not lock rendered buffer");
         __android_log_print(ANDROID_LOG_INFO, TAG, "capture took %lld ms", (long long)std::chrono::duration_cast<std::chrono::milliseconds>(
                                 std::chrono::steady_clock::now() - start).count());
-    }
+    } else captureStatus(filter, format, out->transfer, ret, false);
     return ret;
 }
 
@@ -907,6 +973,9 @@ void onLibraryLoadedForSoftLight(HookFunction hook, const char *name, void *hand
     // The camera and libAlgoInterface both dlopen the library; the exports are hooked once.
     static bool hooked = false;
     if (hooked || !std::strstr(name, "libmsnativefilter.so")) return;
+    Dl_info info{};
+    void *render = dlsym(handle, "MsRenderHardwareBuffer");
+    if (!render || !dladdr(render, &info) || !hasBuildId(info.dli_fbase, "16cee9af6164612ac1c139bc3ab995f4576eaa97")) return;
     hooked = true;
     hookExport(hook, handle, "MsRenderHDRTexture", reinterpret_cast<void *>(hookHdrTexture),
                reinterpret_cast<void **>(&origHdrTexture), TAG);

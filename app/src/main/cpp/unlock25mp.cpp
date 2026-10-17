@@ -25,10 +25,7 @@ constexpr char kOdmConfig[] = "/odm/etc/camera/config/";
 constexpr char kRoot[] = "/data/user/0/com.oplus.camera/files/jiege/unlock25mp/";
 constexpr char kMarker[] = "/data/user/0/com.oplus.camera/files/jiege/unlock25mp/enabled";
 constexpr const char *kNames[] = {
-    "lighthousemain",
-    "lighthousewide",
-    "lighthousetele",
-    "lighthouseultratele",
+    // MTK uses venus sensor tuning. Keep it unchanged; relax the inspected decision tree and APS tables.
     "oplus_camera_preview_decision_config.json",
     "oplus_camera_aps_config",
 };

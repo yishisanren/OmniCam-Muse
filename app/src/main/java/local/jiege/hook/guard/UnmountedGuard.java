@@ -27,7 +27,7 @@ public final class UnmountedGuard {
 
     public static boolean filesMounted() {
         try {
-            return Os.stat(FEATURE_CONFIG).st_dev != Os.stat("/odm/etc/camera/config").st_dev;
+            return DeviceGuard.resourcesReady();
         } catch (Exception error) {
             return false;
         }

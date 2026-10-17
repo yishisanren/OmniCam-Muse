@@ -31,8 +31,10 @@ public final class NaturalMode {
     private static final double EPS_SOFTEST = 1e-3;
 
     private static long checkedAt;
-    private static String appliedConfig = "";
-    private static String appliedSoften = "";
+    // A fresh process has not reconciled the previous process's files. Starting
+    // at "off" would skip deleting a stale enabled file on the first request.
+    private static String appliedConfig;
+    private static String appliedSoften;
     private static native void setSoftenMode(boolean enabled);
 
     private NaturalMode() {}
@@ -72,7 +74,7 @@ public final class NaturalMode {
         File target = new File(ROOT, "conf_tuning_params.json");
         try {
             if (wanted.isEmpty()) {
-                target.delete();
+                if (target.exists() && !target.delete()) throw new IOException("delete " + target);
             } else {
                 write(target, NaturalConfig.apply(read(new File(STOCK_JSON)), noAiDetail, noLce));
             }
@@ -81,7 +83,7 @@ public final class NaturalMode {
         } catch (Exception error) {
             Log.e(TAG, "tuning json", error);
             target.delete();
-            appliedConfig = "";
+            appliedConfig = null;
         }
     }
 
@@ -91,7 +93,7 @@ public final class NaturalMode {
         File target = new File(ROOT, "soften");
         try {
             if (wanted.isEmpty()) {
-                target.delete();
+                if (target.exists() && !target.delete()) throw new IOException("delete " + target);
             } else {
                 write(target, wanted);
             }
@@ -100,7 +102,7 @@ public final class NaturalMode {
         } catch (IOException error) {
             Log.e(TAG, "soften", error);
             target.delete();
-            appliedSoften = "";
+            appliedSoften = null;
         }
     }
 

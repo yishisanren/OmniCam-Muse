@@ -1,0 +1,4 @@
+interface:
+  display_name: "OmniCam Find X9s Pro 适配"
+  short_description: "适配 Muse 上游更新，完成 MTK 真机验收、回退和 GitHub 发布"
+  default_prompt: "使用 $omnicam-x9spro-port 检查 OmniCam-Muse 上游更新并完成 Find X9s Pro 适配与验收。"

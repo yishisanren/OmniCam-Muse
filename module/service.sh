@@ -1,11 +1,28 @@
 #!/system/bin/sh
 
+set -eu
 MODDIR=${0%/*}
+. "$MODDIR/device-profile.sh"
+muse_device_matches || exit 0
+exec >> "$MODDIR/stage.log" 2>&1
+until [ "$(getprop sys.boot_completed)" = 1 ] && [ "$(getprop sys.user.0.ce_available)" = true ]; do sleep 1; done
+BACKUP=/data/adb/omnicam_muse_x9spro_backup
+if [ ! -f "$BACKUP/ready" ]; then
+    mkdir -p "$BACKUP"
+    set --
+    for path in data/user/0/com.oplus.camera/shared_prefs/override_config_data.xml data/user/0/com.oplus.camera/files/ricoh_gr data/user/0/com.oplus.camera/files/jiege data/user/0/com.oplus.camera/files/pop_port data/user/0/com.oplus.camera/files/odm data/user/0/com.oplus.camera/files/mode_limit_watermark data/user/0/com.coloros.gallery3d/shared_prefs/business_featureSwitch_config.xml data/user/0/com.coloros.gallery3d/files/ricoh_gr_styles data/user/0/com.coloros.gallery3d/files/jiege_ipu; do
+        if [ -e "/$path" ]; then set -- "$@" "$path"; fi
+    done
+    printf '%s\n' "$@" > "$BACKUP/existing-paths"
+    tar -cf "$BACKUP/resources.tar" -C / "$@"
+    cp "$MODDIR/profile.json" "$BACKUP/profile.json"
+    touch "$BACKUP/ready"
+fi
 PREF_DIR=/data/user/0/com.oplus.camera/shared_prefs
 PREF_FILE="$PREF_DIR/override_config_data.xml"
 APP=/data/user/0/com.oplus.camera
 OUT=$APP/files/ricoh_gr/lmt
-GR_AVAILABLE='0.6(14),1(23),2(47),3(70),6(139),10(230)'
+GR_AVAILABLE='0.6(15),1(23),2.8(65),5.6(130)'
 GR_MARKED='1.2173913(28),1.7391304(40)'
 
 until [ -d "$APP" ]; do
@@ -13,6 +30,7 @@ until [ -d "$APP" ]; do
 done
 
 APP_UID=$(stat -c %u "$APP")
+rm -f "$APP/files/jiege/muse_profile.sha256"
 mkdir -p "$PREF_DIR"
 chown "$APP_UID:$APP_UID" "$PREF_DIR"
 chmod 0770 "$PREF_DIR"
@@ -32,7 +50,7 @@ set_config() {
 }
 
     set_config com.oplus.gr.mode.support 1
-    set_config com.oplus.camera.mode.data.db.version 102
+    set_config com.oplus.camera.mode.data.db.version 40002
 set_config com.oplus.available.gr.mode.zoomvalues "$GR_AVAILABLE"
 set_config com.oplus.gr.mode.marked.zoomvalues "$GR_MARKED"
 set_config com.oplus.camera.capture.hdr.cap.mode.value 'common,portrait,professional,night,highPixel,xpan,underWater,telephoto,gr,retroCamera'
@@ -75,7 +93,7 @@ restorecon -R "$APP/files/ricoh_gr"
 MASTER_COLOR=$APP/files/jiege/mastercolor
 MASTER_COLOR_STAMP=$(grep '^versionCode=' "$MODDIR/module.prop")
 if [ "$(cat "$MASTER_COLOR/stamp" 2>/dev/null)" != "$MASTER_COLOR_STAMP" ] || ! cmp -s "$MODDIR/payload/master_color/hncs_engine.bin" "$MASTER_COLOR/hncs_engine.bin" || ! cmp -s "$MODDIR/payload/master_color/scene.bin" "$MASTER_COLOR/scene.bin" || ! diff -rq "$MODDIR/payload/master_color/looks" "$MASTER_COLOR/looks" >/dev/null 2>&1; then
-    LOOK=$(cat "$MASTER_COLOR/look" 2>/dev/null)
+    LOOK=$(cat "$MASTER_COLOR/look" 2>/dev/null || true)
     rm -rf "$MASTER_COLOR"
     mkdir -p "$MASTER_COLOR"
     cp "$MODDIR/payload/master_color/hncs_engine.bin" "$MASTER_COLOR/hncs_engine.bin"
@@ -104,15 +122,7 @@ set_config com.oplus.feature.retro.camera.support 1
 # Flash brightness slider (柔和/反差); the camera drives it through com.oplus.flash.IntensityControl.
 set_config com.oplus.flashlevel.configurable.support 1
 set_config com.oplus.feature.tilt.shift.photo.support 1
-# Tilt-shift: mode_data.db is built once from the feature flags. If it has no tiltShift row yet, drop it once
-# (the marker keeps this to a single time) so the camera recreates it with the tilt-shift flag on.
-TILT_MARK="$MODDIR/tilt_db_reset"
-TILT_DB="$APP/databases/mode_data.db"
-if [ ! -f "$TILT_MARK" ] && [ -f "$TILT_DB" ] && ! grep -aq tiltShift "$TILT_DB"; then
-    am force-stop com.oplus.camera
-    rm -f "$TILT_DB" "$TILT_DB-journal" "$TILT_DB-wal" "$TILT_DB-shm"
-fi
-touch "$TILT_MARK"
+# Preserve the user's mode database. Any schema refresh belongs to the camera itself.
 chown "$APP_UID:$APP_UID" "$PREF_FILE"
 chmod 0660 "$PREF_FILE"
 restorecon "$PREF_FILE" 2>/dev/null || true
@@ -131,23 +141,16 @@ restorecon -R "$ASSET_DIR" "$APP/files/odm" 2>/dev/null || true
 # "enabled" marker while the switch is on and unlock25mp.cpp redirects reads to these copies.
 UNLOCK_DIR="$APP/files/jiege/unlock25mp"
 mkdir -p "$UNLOCK_DIR"
-rm -f "$UNLOCK_DIR"/live50*  # staged by 1.3.0-1.3.5 (live 50MP, removed)
+find "$UNLOCK_DIR" -type f -name 'lighthouse*' -delete
+rm -f "$UNLOCK_DIR"/live50*
 cp -f "$MODDIR/payload/unlock25mp/"* "$UNLOCK_DIR/"
 chown -R "$APP_UID:$APP_UID" "$UNLOCK_DIR"
 chmod 0771 "$UNLOCK_DIR"
 find "$UNLOCK_DIR" -type f -exec chmod 0644 {} \;
 restorecon -R "$UNLOCK_DIR" 2>/dev/null || true
 
-# 哈苏超清 200MP without the big-face gate (tools/patch_200m_face.py): the decision copies; the settings
-# hook adds the "enabled" marker while the switch is on and face200m.cpp redirects the decision read.
-FACE_DIR="$APP/files/jiege/face200m"
-mkdir -p "$FACE_DIR"
-cp -a "$MODDIR/payload/face200m/." "$FACE_DIR/"
-chown -R "$APP_UID:$APP_UID" "$FACE_DIR"
-find "$FACE_DIR" -type d -exec chmod 0771 {} \;
-find "$FACE_DIR" -type f -exec chmod 0644 {} \;
-restorecon -R "$FACE_DIR" 2>/dev/null || true
-
+# PME110 stock 200MP has no face gate; never stage Ultra decision copies.
+rm -f "$APP/files/jiege/face200m/enabled"
 GALLERY=/data/user/0/com.coloros.gallery3d
 until [ -d "$GALLERY" ]; do
     sleep 1
@@ -212,3 +215,13 @@ chown -R "$APP_UID:$APP_UID" "$CAM_ML"
 find "$CAM_ML" -type f -exec chmod 0644 {} \;
 find "$CAM_ML" -type d -exec chmod 0755 {} \;
 restorecon -R "$CAM_ML"
+
+# Advertise readiness only after all camera and gallery resources and mounts are verified.
+. "$MODDIR/camera-sdk.sh"
+muse_sdk_ready
+muse_mounts_match
+sha256sum "$MODDIR/profile.json" | cut -d ' ' -f 1 > "$APP/files/jiege/muse_profile.sha256"
+chown "$APP_UID:$APP_UID" "$APP/files/jiege/muse_profile.sha256"
+chmod 0644 "$APP/files/jiege/muse_profile.sha256"
+restorecon "$APP/files/jiege/muse_profile.sha256"
+echo "Muse resource staging complete"

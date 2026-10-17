@@ -32,6 +32,13 @@ final class GrModeHooks {
         hookAppModeInheritance(symbols);
         hookSdkModeInheritance(classLoader);
         GrState.init(symbols);
+        XposedBridge.hookMethod(symbols.method("GrMode.captureStage"), new XC_MethodHook() {
+            @Override protected void afterHookedMethod(MethodHookParam param) {
+                new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() ->
+                    Log.guard(TAG, "capture evidence", () -> Log.i(TAG,
+                        local.jiege.hook.guard.NativeStatus.snapshot())), 3000);
+            }
+        });
         Log.guard(TAG, "GR entrance buttons", () -> hookEntranceButtons(symbols, classLoader));
         Log.guard(TAG, "GR effect branch", () -> hookMasterEffectBranch(symbols));
         Log.guard(TAG, "GR effect panel lifecycle", () -> hookEffectPanelLifecycle(symbols));
@@ -121,7 +128,7 @@ final class GrModeHooks {
             new XC_MethodHook() {
                 @Override protected void beforeHookedMethod(MethodHookParam param) {
                     View view = (View) param.thisObject;
-                    if (view.getId() <= 0 || !"switch_camera_button".equals(view.getResources().getResourceEntryName(view.getId()))) return;
+                    if (view.getId() == View.NO_ID || view.getId() == 0 || !"switch_camera_button".equals(view.getResources().getResourceEntryName(view.getId()))) return;
                     int visibility = (Integer) param.args[0];
                     if ((visibility == View.INVISIBLE || visibility == View.GONE) && GrState.isGrMode() && !styleChipsOpen(symbols)) {
                         param.args[0] = View.VISIBLE;
@@ -140,7 +147,7 @@ final class GrModeHooks {
             new XC_MethodHook() {
                 @Override protected void beforeHookedMethod(MethodHookParam param) {
                     View view = (View) param.thisObject;
-                    if ((Integer) param.args[0] != View.VISIBLE || !GrState.isGrMode() || view.getId() <= 0) return;
+                    if ((Integer) param.args[0] != View.VISIBLE || !GrState.isGrMode() || view.getId() == View.NO_ID || view.getId() == 0) return;
                     String name = view.getResources().getResourceEntryName(view.getId());
                     if ("camera_menu_right_enter_button".equals(name) || "camera_menu_right_enter_button_filter".equals(name)) {
                         param.args[0] = View.GONE;

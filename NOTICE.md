@@ -17,3 +17,5 @@ OmniCam Muse 以 GPL-3.0 发布（[LICENSE](LICENSE)）。下列部分来自第�
 ## Lumix 照片风格
 
 `module/payload/master_color/looks/` 里的 Lumix 表由 Panasonic Lumix S9 的照片风格数据整理而来。
+
+Find X9s Pro MTK port: configuration merge, device/firmware guards and mounting scaffolding adapted from the OmniCam Aura Find X9s Pro port. Its MIT license is retained in LICENSES/OmniCam-Aura-MIT.txt.

@@ -1364,9 +1364,7 @@
    "strings": [
     "com.oplus.blockVibration.delay"
    ],
-   "notInvokes": [
-    "Landroid/os/ConditionVariable;->block(J)Z"
-   ]
+   "name": "t"
   },
   "SoundPlayer.unsilence": {
    "kind": "method",
@@ -1375,9 +1373,10 @@
     "long"
    ],
    "ret": "void",
-   "invokes": [
-    "Landroid/os/ConditionVariable;->block(J)Z"
-   ]
+   "strings": [
+    "com.oplus.blockVibration.delay"
+   ],
+   "name": "s"
   },
   "SoundPlayer.refresh": {
    "kind": "method",

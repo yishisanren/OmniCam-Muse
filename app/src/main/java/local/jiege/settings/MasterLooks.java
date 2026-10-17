@@ -25,7 +25,7 @@ public final class MasterLooks {
     public static final String[] FAMILY_LABELS = {"OPPO", "基础", "HNCS", "Lumix", "胶片", "Canon", "Darktable", "Leica M9"};
     public static final String[] FAMILY_SUMMARIES = {
         "原厂大师模式色彩",
-        "场景色彩经 Adobe Standard 标定后，只套一条传输曲线",
+        "使用本机 Camera2 色彩矩阵，再应用传输曲线；未经色卡精校",
         "哈苏自然色彩解决方案",
         "松下 S9 照片风格",
         "Spektrafilm 胶片模拟",
@@ -36,7 +36,7 @@ public final class MasterLooks {
 
     /** OPPO family: the stock master colour of a phone model (機型). Index 0 is the phone itself, the default. */
     public static final String[] OPPO_IDS = {"oppo", "x7u"};
-    public static final String[] OPPO_LABELS = {"Find X9 Ultra", "Find X7 Ultra"};
+    public static final String[] OPPO_LABELS = {"Find X9s Pro", "Find X7 Ultra"};
 
     public static final String[] LUMIX_IDS = {
         "standard", "vivid", "natural", "landscape", "portrait", "l_classicneo", "709like",

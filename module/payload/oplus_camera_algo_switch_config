@@ -1,5 +1,5 @@
 {
-  "file_version": 16.001,
+  "file_version": 14.008,
   "aps_version": 6,
   "aps_mode": 1,
   "aps_capture_configs": [
@@ -10,17 +10,18 @@
           "id": 0,
           "enable": 1,
           "aps_algo_blurless": 0,
-          "aps_algo_portraitrepair": 0,
           "aps_algo_bokeh": 0,
           "aps_algo_hdr": 0,
           "aps_algo_lowlight_hdr": 0,
+          "aps_algo_portraitrepair": 0,
           "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
           "aps_algo_fusion": 1,
+          "aps_algo_ai_night": 0,
           "aps_algo_rectify": 1,
           "aps_algo_supernight": 0,
-          "aps_algo_superphoto": 0,
+          "aps_algo_superphoto": 1,
           "aps_algo_watermark": 1,
+          "aps_algo_face_info": 1,
           "aps_algo_facebase_retouch": 1,
           "aps_algo_face_beauty": 1,
           "aps_algo_face_restore": 1,
@@ -29,169 +30,48 @@
           "aps_algo_single_blur": 0,
           "aps_algo_upscale": 1,
           "aps_algo_video_blur": 0,
-          "aps_algo_darksight": 0,
-          "aps_algo_opxwatermark": 0,
-          "aps_algo_deflicker": 0,
-          "aps_algo_portrait_supernight": 0,
-          "aps_algo_supersensor": 0,
-          "aps_algo_face_rectify": 1,
-          "aps_algo_super_text": 1,
+          "aps_algo_raw2yuv": 1,
+          "aps_algo_mfll": 1,
           "aps_algo_pf_v1": 0,
-          "aps_algo_dered_eye": 0,
-          "aps_algo_face_info": 1,
+          "aps_algo_ainr": 0,
+          "aps_algo_super_text": 1,
           "aps_algo_scportrait": 0,
+          "aps_algo_face_rectify": 1,
           "aps_algo_couple_hdr": 0,
           "aps_algo_cfr": 1,
-          "aps_algo_tilt_shift": 1,
-          "aps_algo_ice_ainr": 1,
-          "aps_algo_ai_sr": 1,
+          "aps_algo_ai_sr": 0,
           "aps_algo_merge_hdr": 0,
+          "aps_algo_text_enhance": 1,
           "aps_algo_turbo_hdr": 1,
           "aps_algo_hybridraw": 1,
-          "aps_algo_text_enhance": 1,
           "aps_algo_aimoon": 1,
           "aps_algo_oplus_segment": 1,
+          "aps_algo_dcg_fusion": 1,
           "aps_algo_fb_hdr_convert": 1,
           "aps_algo_sw_png_encode": 1,
           "aps_algo_mask_refine": 1,
-          "aps_algo_basic_tone": 1,
+          "aps_algo_basic_tone": 0,
           "aps_algo_hdr_transform": 1,
-          "aps_algo_edof": 1,
-          "aps_algo_mfnr": 1,
-          "aps_algo_dcg_fusion": 1,
-          "aps_algo_rsp": 1,
-          "aps_algo_document_rectify": 1,
           "aps_algo_colorsensor": 1,
-          "aps_algo_color_palette": 1
-        },
-        {
-          "id": 1,
-          "enable": 1,
-          "aps_algo_blurless": 0,
-          "aps_algo_portraitrepair": 0,
-          "aps_algo_bokeh": 0,
-          "aps_algo_hdr": 0,
-          "aps_algo_lowlight_hdr": 0,
-          "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
-          "aps_algo_fusion": 0,
-          "aps_algo_rectify": 0,
-          "aps_algo_supernight": 0,
-          "aps_algo_superphoto": 0,
-          "aps_algo_watermark": 1,
-          "aps_algo_facebase_retouch": 1,
-          "aps_algo_face_beauty": 1,
-          "aps_algo_face_restore": 1,
-          "aps_algo_rotate_mirror": 1,
-          "aps_algo_filter": 1,
-          "aps_algo_single_blur": 0,
-          "aps_algo_upscale": 1,
-          "aps_algo_video_blur": 0,
-          "aps_algo_darksight": 0,
-          "aps_algo_opxwatermark": 0,
-          "aps_algo_deflicker": 0,
-          "aps_algo_portrait_supernight": 1,
-          "aps_algo_supersensor": 0,
-          "aps_algo_face_rectify": 1,
-          "aps_algo_super_text": 0,
-          "aps_algo_pf_v1": 0,
-          "aps_algo_dered_eye": 0,
-          "aps_algo_face_info": 1,
-          "aps_algo_scportrait": 0,
-          "aps_algo_pic_best": 0,
-          "aps_algo_cfr": 0,
-          "aps_algo_ai_deblur": 0,
-          "aps_algo_turbo_hdr": 1,
-          "aps_algo_merge_hdr": 0,
-          "aps_algo_sw_png_encode": 1,
-          "aps_algo_oplus_segment": 1,
-          "aps_algo_fb_hdr_convert": 1,
-          "aps_algo_mask_refine": 0,
-          "aps_algo_hybridraw": 1,
-          "aps_algo_basic_tone": 1,
-          "aps_algo_hdr_transform": 1,
-          "aps_algo_mfnr": 1,
-          "aps_algo_dcg_fusion": 1,
-          "aps_algo_rsp": 1,
-          "aps_algo_color_palette": 1
-        }
-      ]
-    },
-    {
-      "mode": "retroCamera",
-      "entity": [
-        {
-          "id": 0,
-          "enable": 1,
-          "aps_algo_blurless": 0,
-          "aps_algo_portraitrepair": 0,
-          "aps_algo_bokeh": 0,
-          "aps_algo_hdr": 0,
-          "aps_algo_lowlight_hdr": 0,
-          "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
-          "aps_algo_fusion": 1,
-          "aps_algo_rectify": 1,
-          "aps_algo_supernight": 0,
-          "aps_algo_superphoto": 0,
-          "aps_algo_watermark": 1,
-          "aps_algo_facebase_retouch": 1,
-          "aps_algo_face_beauty": 1,
-          "aps_algo_face_restore": 1,
-          "aps_algo_rotate_mirror": 1,
-          "aps_algo_filter": 1,
-          "aps_algo_single_blur": 0,
-          "aps_algo_upscale": 1,
-          "aps_algo_video_blur": 0,
-          "aps_algo_darksight": 0,
-          "aps_algo_opxwatermark": 0,
-          "aps_algo_deflicker": 0,
-          "aps_algo_portrait_supernight": 0,
-          "aps_algo_supersensor": 0,
-          "aps_algo_face_rectify": 1,
-          "aps_algo_super_text": 0,
-          "aps_algo_pf_v1": 0,
-          "aps_algo_dered_eye": 0,
-          "aps_algo_face_info": 1,
-          "aps_algo_scportrait": 0,
-          "aps_algo_couple_hdr": 0,
-          "aps_algo_cfr": 1,
-          "aps_algo_tilt_shift": 1,
-          "aps_algo_ice_ainr": 1,
-          "aps_algo_ai_sr": 1,
-          "aps_algo_merge_hdr": 0,
-          "aps_algo_turbo_hdr": 1,
-          "aps_algo_hybridraw": 1,
-          "aps_algo_text_enhance": 0,
-          "aps_algo_aimoon": 0,
-          "aps_algo_oplus_segment": 1,
-          "aps_algo_fb_hdr_convert": 1,
-          "aps_algo_sw_png_encode": 1,
-          "aps_algo_mask_refine": 1,
-          "aps_algo_basic_tone": 1,
-          "aps_algo_hdr_transform": 1,
-          "aps_algo_edof": 1,
-          "aps_algo_mfnr": 1,
-          "aps_algo_dcg_fusion": 1,
-          "aps_algo_rsp": 1,
           "aps_algo_document_rectify": 1,
-          "aps_algo_colorsensor": 1
+          "aps_algo_edof": 1,
+          "aps_algo_color_palette": 1
         },
         {
           "id": 1,
           "enable": 1,
           "aps_algo_blurless": 0,
-          "aps_algo_portraitrepair": 0,
           "aps_algo_bokeh": 0,
           "aps_algo_hdr": 0,
           "aps_algo_lowlight_hdr": 0,
           "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
           "aps_algo_fusion": 0,
+          "aps_algo_ai_night": 0,
           "aps_algo_rectify": 0,
           "aps_algo_supernight": 0,
           "aps_algo_superphoto": 0,
           "aps_algo_watermark": 1,
+          "aps_algo_face_info": 1,
           "aps_algo_facebase_retouch": 1,
           "aps_algo_face_beauty": 1,
           "aps_algo_face_restore": 1,
@@ -200,32 +80,25 @@
           "aps_algo_single_blur": 0,
           "aps_algo_upscale": 1,
           "aps_algo_video_blur": 0,
-          "aps_algo_darksight": 0,
-          "aps_algo_opxwatermark": 0,
-          "aps_algo_deflicker": 0,
-          "aps_algo_portrait_supernight": 1,
-          "aps_algo_supersensor": 0,
-          "aps_algo_face_rectify": 1,
-          "aps_algo_super_text": 0,
-          "aps_algo_pf_v1": 0,
-          "aps_algo_dered_eye": 0,
-          "aps_algo_face_info": 1,
+          "aps_algo_raw2yuv": 1,
+          "aps_algo_mfll": 1,
+          "aps_algo_ainr": 0,
           "aps_algo_scportrait": 0,
-          "aps_algo_pic_best": 0,
+          "aps_algo_face_rectify": 1,
+          "aps_algo_couple_hdr": 0,
           "aps_algo_cfr": 0,
+          "aps_algo_portrait_supernight": 0,
           "aps_algo_ai_deblur": 0,
-          "aps_algo_turbo_hdr": 1,
           "aps_algo_merge_hdr": 0,
+          "aps_algo_turbo_hdr": 1,
           "aps_algo_sw_png_encode": 1,
           "aps_algo_oplus_segment": 1,
           "aps_algo_fb_hdr_convert": 1,
           "aps_algo_mask_refine": 0,
           "aps_algo_hybridraw": 1,
-          "aps_algo_basic_tone": 1,
+          "aps_algo_basic_tone": 0,
           "aps_algo_hdr_transform": 1,
-          "aps_algo_mfnr": 1,
-          "aps_algo_dcg_fusion": 1,
-          "aps_algo_rsp": 1
+          "aps_algo_color_palette": 1
         }
       ]
     },
@@ -236,87 +109,80 @@
           "id": 0,
           "enable": 1,
           "aps_algo_blurless": 0,
-          "aps_algo_portraitrepair": 0,
           "aps_algo_bokeh": 0,
           "aps_algo_hdr": 0,
           "aps_algo_lowlight_hdr": 0,
           "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
           "aps_algo_fusion": 0,
+          "aps_algo_ai_night": 0,
           "aps_algo_rectify": 1,
           "aps_algo_supernight": 0,
           "aps_algo_superphoto": 0,
           "aps_algo_watermark": 1,
+          "aps_algo_face_info": 1,
           "aps_algo_facebase_retouch": 1,
           "aps_algo_face_beauty": 0,
           "aps_algo_face_restore": 1,
+          "aps_algo_face_rectify": 1,
           "aps_algo_rotate_mirror": 1,
           "aps_algo_filter": 1,
           "aps_algo_single_blur": 0,
           "aps_algo_upscale": 1,
           "aps_algo_video_blur": 0,
-          "aps_algo_darksight": 0,
-          "aps_algo_super_text": 0,
-          "aps_algo_face_info": 1,
-          "aps_algo_face_rectify": 1,
-          "aps_algo_couple_hdr": 1,
-          "aps_algo_cfr": 1,
+          "aps_algo_raw2yuv": 1,
+          "aps_algo_mfll": 1,
+          "aps_algo_portraitrepair": 0,
+          "aps_algo_aihdr": 0,
           "aps_algo_turbo_hdr": 1,
           "aps_algo_hybridraw": 1,
           "aps_algo_oplus_segment": 1,
+          "aps_algo_dcg_fusion": 1,
+          "aps_algo_fb_hdr_convert": 1,
           "aps_algo_merge_hdr": 0,
           "aps_algo_sw_png_encode": 1,
-          "aps_algo_fb_hdr_convert": 1,
-          "aps_algo_mask_refine": 1,
-          "aps_algo_basic_tone": 1,
-          "aps_algo_hdr_transform": 1,
-          "aps_algo_mfnr": 1,
-          "aps_algo_dcg_fusion": 1,
-          "aps_algo_edof": 1,
-          "aps_algo_rsp": 1,
-          "aps_algo_colorsensor": 1
+          "aps_algo_mask_refine": 0,
+          "aps_algo_basic_tone": 0,
+          "aps_algo_colorsensor": 1,
+          "aps_algo_couple_hdr": 1,
+          "aps_algo_hdr_transform": 1
         },
         {
           "id": 1,
           "enable": 1,
           "aps_algo_blurless": 0,
-          "aps_algo_portraitrepair": 0,
           "aps_algo_bokeh": 0,
           "aps_algo_hdr": 0,
           "aps_algo_lowlight_hdr": 0,
           "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
           "aps_algo_fusion": 0,
-          "aps_algo_portrait_supernight": 0,
+          "aps_algo_ai_night": 0,
           "aps_algo_rectify": 0,
           "aps_algo_supernight": 0,
           "aps_algo_superphoto": 0,
           "aps_algo_watermark": 1,
+          "aps_algo_face_info": 1,
           "aps_algo_facebase_retouch": 1,
           "aps_algo_face_beauty": 1,
           "aps_algo_face_restore": 1,
+          "aps_algo_face_rectify": 1,
           "aps_algo_rotate_mirror": 1,
           "aps_algo_filter": 1,
           "aps_algo_single_blur": 0,
           "aps_algo_upscale": 1,
           "aps_algo_video_blur": 0,
-          "aps_algo_darksight": 0,
-          "aps_algo_super_text": 0,
-          "aps_algo_face_info": 1,
-          "aps_algo_face_rectify": 1,
+          "aps_algo_raw2yuv": 1,
+          "aps_algo_mfll": 1,
+          "aps_algo_portrait_supernight": 0,
+          "aps_algo_none": 1,
           "aps_algo_turbo_hdr": 1,
-          "aps_algo_merge_hdr": 0,
           "aps_algo_sw_png_encode": 1,
           "aps_algo_mask_refine": 0,
-          "aps_algo_mfnr": 1,
           "aps_algo_hybridraw": 1,
           "aps_algo_oplus_segment": 1,
           "aps_algo_fb_hdr_convert": 1,
           "aps_algo_basic_tone": 0,
-          "aps_algo_hdr_transform": 1,
           "aps_algo_couple_hdr": 1,
-          "aps_algo_dcg_fusion": 1,
-          "aps_algo_rsp": 1
+          "aps_algo_hdr_transform": 1
         }
       ]
     },
@@ -327,17 +193,19 @@
           "id": 0,
           "enable": 1,
           "aps_algo_blurless": 0,
-          "aps_algo_portraitrepair": 0,
           "aps_algo_bokeh": 1,
           "aps_algo_hdr": 0,
+          "aps_algo_couple_hdr": 0,
           "aps_algo_lowlight_hdr": 0,
+          "aps_algo_portraitrepair": 0,
           "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
           "aps_algo_fusion": 0,
+          "aps_algo_ai_night": 0,
           "aps_algo_rectify": 0,
           "aps_algo_supernight": 0,
           "aps_algo_superphoto": 0,
           "aps_algo_watermark": 1,
+          "aps_algo_face_info": 1,
           "aps_algo_facebase_retouch": 1,
           "aps_algo_face_beauty": 1,
           "aps_algo_face_restore": 1,
@@ -347,37 +215,35 @@
           "aps_algo_single_blur": 0,
           "aps_algo_upscale": 1,
           "aps_algo_video_blur": 0,
-          "aps_algo_super_text": 0,
-          "aps_algo_face_info": 1,
-          "aps_algo_turbo_hdr": 1,
+          "aps_algo_nree": 0,
+          "aps_algo_front_bokeh": 0,
           "aps_algo_raw2yuv": 1,
-          "aps_algo_mfnr": 1,
+          "aps_algo_mfll": 1,
           "aps_algo_oplus_segment": 1,
+          "aps_algo_dcg_fusion": 1,
           "aps_algo_fb_hdr_convert": 1,
           "aps_algo_hybridraw": 1,
           "aps_algo_basic_tone": 0,
+          "aps_algo_colorsensor": 1,
           "aps_algo_hdr_transform": 1,
           "aps_algo_mask_refine": 0,
-          "aps_algo_dcg_fusion": 1,
-          "aps_algo_rsp": 1,
-          "aps_algo_colorsensor": 1,
           "aps_algo_color_palette": 1
         },
         {
           "id": 1,
           "enable": 1,
           "aps_algo_blurless": 0,
-          "aps_algo_portraitrepair": 0,
           "aps_algo_bokeh": 0,
           "aps_algo_hdr": 0,
           "aps_algo_lowlight_hdr": 0,
           "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
           "aps_algo_fusion": 0,
+          "aps_algo_ai_night": 0,
           "aps_algo_rectify": 0,
           "aps_algo_supernight": 0,
           "aps_algo_superphoto": 0,
           "aps_algo_watermark": 1,
+          "aps_algo_face_info": 1,
           "aps_algo_facebase_retouch": 1,
           "aps_algo_face_beauty": 1,
           "aps_algo_face_restore": 1,
@@ -387,18 +253,19 @@
           "aps_algo_single_portrait": 1,
           "aps_algo_upscale": 1,
           "aps_algo_video_blur": 0,
-          "aps_algo_super_text": 0,
-          "aps_algo_face_info": 1,
-          "aps_algo_merge_hdr": 0,
+          "aps_algo_raw2yuv": 1,
+          "aps_algo_mfll": 1,
+          "aps_algo_ainr": 0,
+          "aps_algo_portrait_supernight": 0,
+          "aps_algo_single_aicolor": 0,
+          "aps_algo_front_bokeh": 0,
+          "aps_algo_turbo_hdr": 1,
           "aps_algo_oplus_segment": 1,
           "aps_algo_fb_hdr_convert": 1,
-          "aps_algo_turbo_hdr": 1,
           "aps_algo_hybridraw": 1,
           "aps_algo_basic_tone": 0,
           "aps_algo_hdr_transform": 1,
-          "aps_algo_mfnr": 1,
-          "aps_algo_dcg_fusion": 1,
-          "aps_algo_rsp": 1,
+          "aps_algo_mask_refine": 0,
           "aps_algo_color_palette": 1
         }
       ]
@@ -409,15 +276,13 @@
         {
           "id": 0,
           "enable": 1,
+          "aps_algo_mfll": 1,
           "aps_algo_filter": 1,
-          "aps_algo_hybridraw": 1,
-          "aps_algo_basic_tone": 1,
-          "aps_algo_hdr_transform": 1,
-          "aps_algo_mask_refine": 1,
-          "aps_algo_mfnr": 1,
           "aps_algo_upscale": 0,
+          "aps_algo_rotate_mirror": 1,
           "aps_algo_watermark": 1,
-          "aps_algo_rotate_mirror": 1
+          "aps_algo_dcg_fusion": 1,
+          "aps_algo_cfr": 1
         }
       ]
     },
@@ -432,13 +297,13 @@
           "aps_algo_basic_tone": 1,
           "aps_algo_hdr_transform": 1,
           "aps_algo_mask_refine": 1,
-          "aps_algo_mfnr": 1,
+          "aps_algo_mfll": 1,
           "aps_algo_rectify": 1,
           "aps_algo_cfr": 1,
           "aps_algo_upscale": 1,
           "aps_algo_watermark": 1,
-          "aps_algo_rotate_mirror": 1,
-          "aps_algo_dcg_fusion": 1
+          "aps_algo_dcg_fusion": 1,
+          "aps_algo_rotate_mirror": 1
         }
       ]
     },
@@ -458,6 +323,44 @@
       ]
     },
     {
+      "mode": "professional",
+      "entity": [
+        {
+          "id": 0,
+          "enable": 1,
+          "aps_algo_blurless": 0,
+          "aps_algo_bokeh": 0,
+          "aps_algo_hdr": 0,
+          "aps_algo_lowlight_hdr": 0,
+          "aps_algo_raw_hdr": 0,
+          "aps_algo_fusion": 0,
+          "aps_algo_ai_night": 0,
+          "aps_algo_rectify": 1,
+          "aps_algo_supernight": 0,
+          "aps_algo_superphoto": 0,
+          "aps_algo_watermark": 1,
+          "aps_algo_face_info": 0,
+          "aps_algo_face_beauty": 0,
+          "aps_algo_rotate_mirror": 1,
+          "aps_algo_filter": 0,
+          "aps_algo_single_blur": 0,
+          "aps_algo_upscale": 0,
+          "aps_algo_video_blur": 0,
+          "aps_algo_dcg_fusion": 1,
+          "aps_algo_raw2yuv": 1,
+          "aps_algo_mfll": 1,
+          "aps_algo_cfr": 1,
+          "aps_algo_super_raw": 1,
+          "aps_algo_basic_tone": 1
+        },
+        {
+          "id": 1,
+          "enable": 1,
+          "aps_algo_none": 1
+        }
+      ]
+    },
+    {
       "mode": "idPhoto",
       "entity": [
         {
@@ -468,8 +371,8 @@
           "aps_algo_hdr": 0,
           "aps_algo_lowlight_hdr": 0,
           "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
           "aps_algo_fusion": 0,
+          "aps_algo_ai_night": 0,
           "aps_algo_rectify": 0,
           "aps_algo_supernight": 0,
           "aps_algo_superphoto": 0,
@@ -481,9 +384,10 @@
           "aps_algo_upscale": 0,
           "aps_algo_video_blur": 0,
           "aps_algo_super_text": 0,
+          "aps_algo_raw2yuv": 1,
+          "aps_algo_mfll": 1,
           "aps_algo_face_info": 1,
-          "aps_algo_dered_eye": 0,
-          "aps_algo_mfnr": 1
+          "aps_algo_dered_eye": 1
         },
         {
           "id": 1,
@@ -493,9 +397,9 @@
           "aps_algo_hdr": 0,
           "aps_algo_lowlight_hdr": 0,
           "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
           "aps_algo_fusion": 0,
-          "aps_algo_rectify": 0,
+          "aps_algo_ai_night": 0,
+          "aps_algo_rectify": 1,
           "aps_algo_supernight": 0,
           "aps_algo_superphoto": 0,
           "aps_algo_watermark": 0,
@@ -506,9 +410,105 @@
           "aps_algo_upscale": 1,
           "aps_algo_video_blur": 0,
           "aps_algo_super_text": 0,
+          "aps_algo_raw2yuv": 1,
+          "aps_algo_mfll": 1,
           "aps_algo_face_info": 1,
-          "aps_algo_dered_eye": 0,
-          "aps_algo_mfnr": 1
+          "aps_algo_dered_eye": 1
+        }
+      ]
+    },
+    {
+      "mode": "commonVideo",
+      "entity": [
+        {
+          "id": 0,
+          "enable": 1,
+          "aps_algo_rotate_mirror": 1,
+          "aps_algo_filter": 1,
+          "aps_algo_face_info": 1,
+          "aps_algo_face_beauty": 1,
+          "aps_algo_watermark": 1,
+          "aps_algo_video_retention": 0,
+          "aps_algo_video_blur": 1,
+          "aps_algo_basic_tone": 1,
+          "aps_algo_hdr_transform": 1
+        },
+        {
+          "id": 1,
+          "enable": 1,
+          "aps_algo_rotate_mirror": 1,
+          "aps_algo_upscale": 1,
+          "aps_algo_filter": 1,
+          "aps_algo_face_info": 1,
+          "aps_algo_face_beauty": 1,
+          "aps_algo_watermark": 1,
+          "aps_algo_video_retention": 0,
+          "aps_algo_video_blur": 1,
+          "aps_algo_basic_tone": 1,
+          "aps_algo_hdr_transform": 1
+        }
+      ]
+    },
+    {
+      "mode": "fastVideo",
+      "entity": [
+        {
+          "id": 0,
+          "enable": 1,
+          "aps_algo_watermark": 1
+        },
+        {
+          "id": 1,
+          "enable": 1,
+          "aps_algo_watermark": 1
+        }
+      ]
+    },
+    {
+      "mode": "slowVideo",
+      "entity": [
+        {
+          "id": 0,
+          "enable": 1,
+          "aps_algo_rotate_mirror": 1,
+          "aps_algo_basic_tone": 1,
+          "aps_algo_hdr_transform": 1
+        },
+        {
+          "id": 1,
+          "enable": 1,
+          "aps_algo_none": 1
+        }
+      ]
+    },
+    {
+      "mode": "ultraHD",
+      "entity": [
+        {
+          "id": 0,
+          "enable": 1,
+          "aps_algo_blurless": 0,
+          "aps_algo_bokeh": 0,
+          "aps_algo_hdr": 0,
+          "aps_algo_lowlight_hdr": 0,
+          "aps_algo_raw_hdr": 0,
+          "aps_algo_fusion": 0,
+          "aps_algo_ai_night": 0,
+          "aps_algo_rectify": 0,
+          "aps_algo_supernight": 0,
+          "aps_algo_superphoto": 1,
+          "aps_algo_watermark": 1,
+          "aps_algo_face_beauty": 0,
+          "aps_algo_rotate_mirror": 1,
+          "aps_algo_filter": 1,
+          "aps_algo_single_blur": 0,
+          "aps_algo_upscale": 1,
+          "aps_algo_video_blur": 0
+        },
+        {
+          "id": 1,
+          "enable": 1,
+          "aps_algo_none": 1
         }
       ]
     },
@@ -540,13 +540,13 @@
           "aps_algo_dered_eye": 0,
           "aps_algo_super_raw": 0,
           "aps_algo_turbo_hdr": 0,
+          "aps_algo_dcg_fusion": 1,
           "aps_algo_hybridraw": 1,
           "aps_algo_basic_tone": 1,
           "aps_algo_hdr_transform": 1,
           "aps_algo_mask_refine": 1,
           "aps_algo_cfr": 1,
-          "aps_algo_mfnr": 1,
-          "aps_algo_dcg_fusion": 1
+          "aps_algo_mfll": 1
         },
         {
           "id": 1,
@@ -566,21 +566,19 @@
           "aps_algo_hdr": 0,
           "aps_algo_lowlight_hdr": 0,
           "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
           "aps_algo_fusion": 0,
+          "aps_algo_ai_night": 0,
           "aps_algo_rectify": 0,
           "aps_algo_supernight": 0,
           "aps_algo_superphoto": 0,
           "aps_algo_watermark": 0,
+          "aps_algo_face_info": 1,
           "aps_algo_face_beauty": 1,
-          "aps_algo_rotate_mirror": 1,
+          "aps_algo_rotate_mirror": 0,
           "aps_algo_filter": 1,
           "aps_algo_single_blur": 0,
-          "aps_algo_upscale": 1,
-          "aps_algo_video_blur": 0,
-          "aps_algo_super_text": 0,
-          "aps_algo_face_info": 1,
-          "aps_algo_merge_hdr": 0
+          "aps_algo_upscale": 0,
+          "aps_algo_video_blur": 0
         },
         {
           "id": 1,
@@ -590,21 +588,19 @@
           "aps_algo_hdr": 0,
           "aps_algo_lowlight_hdr": 0,
           "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
           "aps_algo_fusion": 0,
+          "aps_algo_ai_night": 0,
           "aps_algo_rectify": 0,
           "aps_algo_supernight": 0,
           "aps_algo_superphoto": 0,
           "aps_algo_watermark": 0,
+          "aps_algo_face_info": 1,
           "aps_algo_face_beauty": 1,
-          "aps_algo_rotate_mirror": 1,
+          "aps_algo_rotate_mirror": 0,
           "aps_algo_filter": 1,
           "aps_algo_single_blur": 0,
-          "aps_algo_upscale": 1,
-          "aps_algo_video_blur": 0,
-          "aps_algo_super_text": 0,
-          "aps_algo_face_info": 1,
-          "aps_algo_merge_hdr": 0
+          "aps_algo_upscale": 0,
+          "aps_algo_video_blur": 0
         }
       ]
     },
@@ -619,165 +615,22 @@
           "aps_algo_hdr": 0,
           "aps_algo_lowlight_hdr": 0,
           "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
-          "aps_algo_filter": 1,
           "aps_algo_fusion": 0,
+          "aps_algo_ai_night": 0,
           "aps_algo_rectify": 0,
           "aps_algo_supernight": 0,
           "aps_algo_superphoto": 0,
           "aps_algo_watermark": 1,
           "aps_algo_face_beauty": 0,
-          "aps_algo_rotate_mirror": 1,
+          "aps_algo_rotate_mirror": 0,
+          "aps_algo_filter": 1,
           "aps_algo_single_blur": 0,
           "aps_algo_upscale": 0,
           "aps_algo_video_blur": 0,
-          "aps_algo_pf_v1": 0,
-          "aps_algo_scportrait": 0,
-          "aps_algo_face_rectify": 0
-        },
-        {
-          "id": 1,
-          "enable": 1,
-          "aps_algo_none": 1
-        }
-      ]
-    },
-    {
-      "mode": "commonVideo",
-      "entity": [
-        {
-          "id": 0,
-          "enable": 1,
-          "aps_algo_blurless": 0,
-          "aps_algo_bokeh": 0,
-          "aps_algo_hdr": 0,
-          "aps_algo_lowlight_hdr": 0,
-          "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
-          "aps_algo_fusion": 0,
-          "aps_algo_rectify": 1,
-          "aps_algo_supernight": 0,
-          "aps_algo_superphoto": 0,
-          "aps_algo_watermark": 1,
-          "aps_algo_face_beauty": 1,
-          "aps_algo_rotate_mirror": 1,
-          "aps_algo_filter": 1,
-          "aps_algo_single_blur": 0,
-          "aps_algo_upscale": 1,
-          "aps_algo_video_blur": 1,
           "aps_algo_super_text": 0,
-          "aps_algo_face_info": 1,
-          "aps_algo_hdr_transform": 1,
-          "aps_algo_basic_tone": 1,
-          "aps_algo_dered_eye": 0
-        },
-        {
-          "id": 1,
-          "enable": 1,
-          "aps_algo_blurless": 0,
-          "aps_algo_bokeh": 0,
-          "aps_algo_hdr": 0,
-          "aps_algo_lowlight_hdr": 0,
-          "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
-          "aps_algo_fusion": 0,
-          "aps_algo_rectify": 0,
-          "aps_algo_supernight": 0,
-          "aps_algo_superphoto": 0,
-          "aps_algo_watermark": 1,
-          "aps_algo_face_beauty": 1,
-          "aps_algo_rotate_mirror": 1,
-          "aps_algo_filter": 1,
-          "aps_algo_single_blur": 0,
-          "aps_algo_upscale": 1,
-          "aps_algo_video_blur": 1,
-          "aps_algo_super_text": 0,
-          "aps_algo_basic_tone": 1,
-          "aps_algo_hdr_transform": 1,
-          "aps_algo_face_info": 1
-        }
-      ]
-    },
-    {
-      "mode": "fastVideo",
-      "entity": [
-        {
-          "id": 0,
-          "enable": 1,
-          "aps_algo_blurless": 0,
-          "aps_algo_bokeh": 0,
-          "aps_algo_hdr": 0,
-          "aps_algo_lowlight_hdr": 0,
-          "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
-          "aps_algo_fusion": 0,
-          "aps_algo_rectify": 0,
-          "aps_algo_supernight": 0,
-          "aps_algo_superphoto": 0,
-          "aps_algo_watermark": 1,
-          "aps_algo_face_beauty": 0,
-          "aps_algo_rotate_mirror": 1,
-          "aps_algo_filter": 1,
-          "aps_algo_single_blur": 0,
-          "aps_algo_upscale": 1,
-          "aps_algo_video_blur": 1,
-          "aps_algo_super_text": 0,
-          "aps_algo_face_info": 0,
-          "aps_algo_basic_tone": 1,
-          "aps_algo_hdr_transform": 1
-        },
-        {
-          "id": 1,
-          "enable": 1,
-          "aps_algo_blurless": 0,
-          "aps_algo_bokeh": 0,
-          "aps_algo_hdr": 0,
-          "aps_algo_lowlight_hdr": 0,
-          "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
-          "aps_algo_fusion": 0,
-          "aps_algo_rectify": 0,
-          "aps_algo_supernight": 0,
-          "aps_algo_superphoto": 0,
-          "aps_algo_watermark": 1,
-          "aps_algo_face_beauty": 1,
-          "aps_algo_rotate_mirror": 1,
-          "aps_algo_filter": 1,
-          "aps_algo_single_blur": 0,
-          "aps_algo_upscale": 1,
-          "aps_algo_video_blur": 1,
-          "aps_algo_super_text": 0,
-          "aps_algo_face_info": 1
-        }
-      ]
-    },
-    {
-      "mode": "slowVideo",
-      "entity": [
-        {
-          "id": 0,
-          "enable": 1,
-          "aps_algo_blurless": 0,
-          "aps_algo_bokeh": 0,
-          "aps_algo_hdr": 0,
-          "aps_algo_lowlight_hdr": 0,
-          "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
-          "aps_algo_fusion": 0,
-          "aps_algo_rectify": 0,
-          "aps_algo_supernight": 0,
-          "aps_algo_superphoto": 0,
-          "aps_algo_watermark": 0,
-          "aps_algo_face_beauty": 0,
-          "aps_algo_rotate_mirror": 1,
-          "aps_algo_filter": 1,
-          "aps_algo_single_blur": 0,
-          "aps_algo_upscale": 1,
-          "aps_algo_video_blur": 1,
-          "aps_algo_super_text": 0,
-          "aps_algo_face_info": 0,
-          "aps_algo_basic_tone": 1,
-          "aps_algo_hdr_transform": 1
+          "aps_algo_raw2yuv": 1,
+          "aps_algo_mfll": 1,
+          "aps_algo_ainr": 0
         },
         {
           "id": 1,
@@ -797,7 +650,7 @@
           "aps_algo_filter": 0,
           "aps_algo_upscale": 1,
           "aps_algo_raw2yuv": 1,
-          "aps_algo_mfnr": 1,
+          "aps_algo_mfll": 1,
           "aps_algo_couple_hdr": 0,
           "aps_algo_cfr": 1,
           "aps_algo_text_enhance": 1,
@@ -810,58 +663,11 @@
           "aps_algo_basic_tone": 0,
           "aps_algo_hdr_transform": 1,
           "aps_algo_colorsensor": 1,
-          "aps_algo_document_rectify": 1,
-          "aps_algo_rsp": 1
+          "aps_algo_document_rectify": 1
         },
         {
           "id": 1,
           "enable": 1,
-          "aps_algo_none": 1
-        }
-      ]
-    },
-    {
-      "mode": "groupshot",
-      "entity": [
-        {
-          "id": 0,
-          "enable": 1,
-          "aps_algo_blurless": 0,
-          "aps_algo_bokeh": 0,
-          "aps_algo_hdr": 0,
-          "aps_algo_lowlight_hdr": 0,
-          "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
-          "aps_algo_fusion": 0,
-          "aps_algo_ai_night": 0,
-          "aps_algo_rectify": 0,
-          "aps_algo_supernight": 0,
-          "aps_algo_superphoto": 0,
-          "aps_algo_watermark": 1,
-          "aps_algo_face_beauty": 1,
-          "aps_algo_rotate_mirror": 1,
-          "aps_algo_filter": 1,
-          "aps_algo_single_blur": 0,
-          "aps_algo_upscale": 1,
-          "aps_algo_video_blur": 0,
-          "aps_algo_darksight": 0,
-          "aps_algo_opxwatermark": 0,
-          "aps_algo_deflicker": 0,
-          "aps_algo_portrait_supernight": 0,
-          "aps_algo_supersensor": 0,
-          "aps_algo_face_rectify": 1,
-          "aps_algo_super_text": 0,
-          "aps_algo_pf_v1": 0,
-          "aps_algo_dered_eye": 0,
-          "aps_algo_face_info": 1,
-          "aps_algo_scportrait": 0,
-          "aps_algo_couple_hdr": 0,
-          "aps_algo_pic_best": 0,
-          "aps_algo_merge_hdr": 0
-        },
-        {
-          "id": 1,
-          "enable": 0,
           "aps_algo_none": 1
         }
       ]
@@ -872,12 +678,93 @@
         {
           "id": 0,
           "enable": 1,
-          "aps_algo_rotate_mirror": 1
+          "aps_algo_blurless": 0,
+          "aps_algo_bokeh": 0,
+          "aps_algo_hdr": 0,
+          "aps_algo_lowlight_hdr": 0,
+          "aps_algo_portraitrepair": 0,
+          "aps_algo_raw_hdr": 0,
+          "aps_algo_fusion": 1,
+          "aps_algo_ai_night": 0,
+          "aps_algo_rectify": 1,
+          "aps_algo_supernight": 0,
+          "aps_algo_superphoto": 1,
+          "aps_algo_watermark": 1,
+          "aps_algo_face_info": 1,
+          "aps_algo_facebase_retouch": 1,
+          "aps_algo_face_beauty": 1,
+          "aps_algo_face_restore": 1,
+          "aps_algo_rotate_mirror": 1,
+          "aps_algo_filter": 1,
+          "aps_algo_single_blur": 0,
+          "aps_algo_upscale": 1,
+          "aps_algo_video_blur": 0,
+          "aps_algo_raw2yuv": 1,
+          "aps_algo_mfll": 1,
+          "aps_algo_pf_v1": 0,
+          "aps_algo_ainr": 0,
+          "aps_algo_super_text": 1,
+          "aps_algo_scportrait": 0,
+          "aps_algo_face_rectify": 1,
+          "aps_algo_couple_hdr": 0,
+          "aps_algo_cfr": 1,
+          "aps_algo_ai_sr": 0,
+          "aps_algo_merge_hdr": 0,
+          "aps_algo_text_enhance": 1,
+          "aps_algo_turbo_hdr": 1,
+          "aps_algo_hybridraw": 1,
+          "aps_algo_aimoon": 1,
+          "aps_algo_oplus_segment": 1,
+          "aps_algo_dcg_fusion": 1,
+          "aps_algo_fb_hdr_convert": 1,
+          "aps_algo_sw_png_encode": 1,
+          "aps_algo_mask_refine": 0,
+          "aps_algo_basic_tone": 0,
+          "aps_algo_hdr_transform": 1,
+          "aps_algo_colorsensor": 1,
+          "aps_algo_edof": 1
         },
         {
           "id": 1,
           "enable": 1,
-          "aps_algo_rotate_mirror": 1
+          "aps_algo_blurless": 0,
+          "aps_algo_bokeh": 0,
+          "aps_algo_hdr": 0,
+          "aps_algo_lowlight_hdr": 0,
+          "aps_algo_raw_hdr": 0,
+          "aps_algo_fusion": 0,
+          "aps_algo_ai_night": 0,
+          "aps_algo_rectify": 0,
+          "aps_algo_supernight": 0,
+          "aps_algo_superphoto": 0,
+          "aps_algo_watermark": 1,
+          "aps_algo_face_info": 1,
+          "aps_algo_facebase_retouch": 1,
+          "aps_algo_face_beauty": 1,
+          "aps_algo_face_restore": 1,
+          "aps_algo_rotate_mirror": 1,
+          "aps_algo_filter": 1,
+          "aps_algo_single_blur": 0,
+          "aps_algo_upscale": 1,
+          "aps_algo_video_blur": 0,
+          "aps_algo_raw2yuv": 1,
+          "aps_algo_mfll": 1,
+          "aps_algo_ainr": 0,
+          "aps_algo_scportrait": 0,
+          "aps_algo_face_rectify": 1,
+          "aps_algo_couple_hdr": 0,
+          "aps_algo_cfr": 0,
+          "aps_algo_portrait_supernight": 0,
+          "aps_algo_ai_deblur": 0,
+          "aps_algo_merge_hdr": 0,
+          "aps_algo_turbo_hdr": 1,
+          "aps_algo_sw_png_encode": 1,
+          "aps_algo_oplus_segment": 1,
+          "aps_algo_fb_hdr_convert": 1,
+          "aps_algo_mask_refine": 0,
+          "aps_algo_hybridraw": 1,
+          "aps_algo_basic_tone": 0,
+          "aps_algo_hdr_transform": 1
         }
       ]
     },
@@ -897,94 +784,15 @@
       ]
     },
     {
-      "mode": "microscope",
-      "entity": [
-        {
-          "id": 0,
-          "enable": 1,
-          "aps_algo_blurless": 0,
-          "aps_algo_bokeh": 0,
-          "aps_algo_hdr": 0,
-          "aps_algo_lowlight_hdr": 0,
-          "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
-          "aps_algo_fusion": 0,
-          "aps_algo_rectify": 0,
-          "aps_algo_supernight": 0,
-          "aps_algo_superphoto": 0,
-          "aps_algo_watermark": 1,
-          "aps_algo_face_beauty": 0,
-          "aps_algo_rotate_mirror": 1,
-          "aps_algo_filter": 1,
-          "aps_algo_single_blur": 0,
-          "aps_algo_upscale": 1,
-          "aps_algo_video_blur": 0,
-          "aps_algo_darksight": 0,
-          "aps_algo_opxwatermark": 0,
-          "aps_algo_deflicker": 0,
-          "aps_algo_portrait_supernight": 0,
-          "aps_algo_supersensor": 0,
-          "aps_algo_face_rectify": 0,
-          "aps_algo_super_text": 0,
-          "aps_algo_pf_v1": 0,
-          "aps_algo_dered_eye": 0,
-          "aps_algo_face_info": 0,
-          "aps_algo_scportrait": 0,
-          "aps_algo_couple_hdr": 0,
-          "aps_algo_filter_microscope": 1
-        },
-        {
-          "id": 1,
-          "enable": 1,
-          "aps_algo_none": 1
-        }
-      ]
-    },
-    {
-      "mode": "microscopeVideo",
-      "entity": [
-        {
-          "id": 0,
-          "enable": 1,
-          "aps_algo_blurless": 0,
-          "aps_algo_bokeh": 0,
-          "aps_algo_hdr": 0,
-          "aps_algo_lowlight_hdr": 0,
-          "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
-          "aps_algo_fusion": 0,
-          "aps_algo_ai_night": 0,
-          "aps_algo_rectify": 0,
-          "aps_algo_supernight": 0,
-          "aps_algo_superphoto": 0,
-          "aps_algo_watermark": 1,
-          "aps_algo_face_beauty": 0,
-          "aps_algo_rotate_mirror": 1,
-          "aps_algo_filter": 1,
-          "aps_algo_single_blur": 0,
-          "aps_algo_upscale": 1,
-          "aps_algo_video_blur": 0,
-          "aps_algo_super_text": 0,
-          "aps_algo_face_info": 0,
-          "aps_algo_filter_microscope": 1
-        },
-        {
-          "id": 1,
-          "enable": 1,
-          "aps_algo_none": 1
-        }
-      ]
-    },
-    {
       "mode": "longExposure",
       "entity": [
         {
           "id": 0,
           "enable": 1,
           "aps_algo_watermark": 1,
-          "aps_algo_rectify": 1,
           "aps_algo_filter": 1,
           "aps_algo_raw2yuv": 1,
+          "aps_algo_rectify": 1,
           "aps_algo_rotate_mirror": 1
         }
       ]
@@ -995,54 +803,24 @@
         {
           "id": 0,
           "enable": 1,
-          "aps_algo_blurless": 0,
-          "aps_algo_portraitrepair": 1,
-          "aps_algo_bokeh": 0,
-          "aps_algo_hdr": 0,
-          "aps_algo_lowlight_hdr": 0,
-          "aps_algo_raw_hdr": 0,
-          "aps_algo_pf": 0,
-          "aps_algo_fusion": 1,
           "aps_algo_rectify": 1,
-          "aps_algo_supernight": 0,
-          "aps_algo_superphoto": 0,
           "aps_algo_watermark": 1,
-          "aps_algo_facebase_retouch": 0,
+          "aps_algo_face_info": 1,
+          "aps_algo_face_restore": 1,
+          "aps_algo_face_rectify": 1,
           "aps_algo_face_beauty": 0,
           "aps_algo_rotate_mirror": 1,
           "aps_algo_filter": 1,
-          "aps_algo_single_blur": 0,
           "aps_algo_upscale": 1,
           "aps_algo_video_blur": 0,
-          "aps_algo_darksight": 0,
-          "aps_algo_opxwatermark": 0,
-          "aps_algo_deflicker": 0,
-          "aps_algo_portrait_supernight": 0,
-          "aps_algo_supersensor": 0,
-          "aps_algo_face_rectify": 0,
-          "aps_algo_super_text": 1,
-          "aps_algo_pf_v1": 0,
-          "aps_algo_dered_eye": 0,
-          "aps_algo_face_info": 1,
-          "aps_algo_face_restore": 1,
-          "aps_algo_scportrait": 0,
-          "aps_algo_couple_hdr": 0,
-          "aps_algo_cfr": 1,
-          "aps_algo_ice_ainr": 1,
-          "aps_algo_ai_sr": 1,
-          "aps_algo_merge_hdr": 0,
+          "aps_algo_raw2yuv": 1,
+          "aps_algo_mfll": 1,
           "aps_algo_turbo_hdr": 1,
           "aps_algo_hybridraw": 1,
-          "aps_algo_text_enhance": 1,
-          "aps_algo_aimoon": 1,
-          "aps_algo_sw_png_encode": 1,
-          "aps_algo_mask_refine": 1,
-          "aps_algo_mfnr": 1,
-          "aps_algo_basic_tone": 0,
-          "aps_algo_hdr_transform": 1,
+          "aps_algo_fb_hdr_convert": 1,
+          "aps_algo_cfr": 1,
           "aps_algo_dcg_fusion": 1,
-          "aps_algo_oplus_segment": 1,
-          "aps_algo_rsp": 1,
+          "aps_algo_hdr_transform": 1,
           "aps_algo_colorsensor": 1,
           "aps_algo_color_palette": 1
         },
@@ -1059,14 +837,109 @@
           "aps_algo_upscale": 1,
           "aps_algo_video_blur": 0,
           "aps_algo_raw2yuv": 1,
-          "aps_algo_mfnr": 1,
+          "aps_algo_mfll": 1,
           "aps_algo_turbo_hdr": 1,
           "aps_algo_hybridraw": 1,
-          "aps_algo_cfr": 0,
+          "aps_algo_cfr": 1,
           "aps_algo_hdr_transform": 1,
-          "aps_algo_oplus_segment": 1,
-          "aps_algo_rsp": 0,
           "aps_algo_color_palette": 1
+        }
+      ]
+    },
+    {
+      "mode": "retroCamera",
+      "entity": [
+        {
+          "id": 0,
+          "enable": 1,
+          "aps_algo_blurless": 0,
+          "aps_algo_bokeh": 0,
+          "aps_algo_hdr": 0,
+          "aps_algo_lowlight_hdr": 0,
+          "aps_algo_portraitrepair": 0,
+          "aps_algo_raw_hdr": 0,
+          "aps_algo_fusion": 1,
+          "aps_algo_ai_night": 0,
+          "aps_algo_rectify": 1,
+          "aps_algo_supernight": 0,
+          "aps_algo_superphoto": 1,
+          "aps_algo_watermark": 1,
+          "aps_algo_face_info": 1,
+          "aps_algo_facebase_retouch": 1,
+          "aps_algo_face_beauty": 1,
+          "aps_algo_face_restore": 1,
+          "aps_algo_rotate_mirror": 1,
+          "aps_algo_filter": 1,
+          "aps_algo_single_blur": 0,
+          "aps_algo_upscale": 1,
+          "aps_algo_video_blur": 0,
+          "aps_algo_raw2yuv": 1,
+          "aps_algo_mfll": 1,
+          "aps_algo_pf_v1": 0,
+          "aps_algo_ainr": 0,
+          "aps_algo_super_text": 1,
+          "aps_algo_scportrait": 0,
+          "aps_algo_face_rectify": 1,
+          "aps_algo_couple_hdr": 0,
+          "aps_algo_cfr": 1,
+          "aps_algo_ai_sr": 0,
+          "aps_algo_merge_hdr": 0,
+          "aps_algo_text_enhance": 1,
+          "aps_algo_turbo_hdr": 1,
+          "aps_algo_hybridraw": 1,
+          "aps_algo_aimoon": 1,
+          "aps_algo_oplus_segment": 1,
+          "aps_algo_dcg_fusion": 1,
+          "aps_algo_fb_hdr_convert": 1,
+          "aps_algo_sw_png_encode": 1,
+          "aps_algo_mask_refine": 1,
+          "aps_algo_basic_tone": 0,
+          "aps_algo_hdr_transform": 1,
+          "aps_algo_colorsensor": 1,
+          "aps_algo_document_rectify": 1,
+          "aps_algo_edof": 1
+        },
+        {
+          "id": 1,
+          "enable": 1,
+          "aps_algo_blurless": 0,
+          "aps_algo_bokeh": 0,
+          "aps_algo_hdr": 0,
+          "aps_algo_lowlight_hdr": 0,
+          "aps_algo_raw_hdr": 0,
+          "aps_algo_fusion": 0,
+          "aps_algo_ai_night": 0,
+          "aps_algo_rectify": 0,
+          "aps_algo_supernight": 0,
+          "aps_algo_superphoto": 0,
+          "aps_algo_watermark": 1,
+          "aps_algo_face_info": 1,
+          "aps_algo_facebase_retouch": 1,
+          "aps_algo_face_beauty": 1,
+          "aps_algo_face_restore": 1,
+          "aps_algo_rotate_mirror": 1,
+          "aps_algo_filter": 1,
+          "aps_algo_single_blur": 0,
+          "aps_algo_upscale": 1,
+          "aps_algo_video_blur": 0,
+          "aps_algo_raw2yuv": 1,
+          "aps_algo_mfll": 1,
+          "aps_algo_ainr": 0,
+          "aps_algo_scportrait": 0,
+          "aps_algo_face_rectify": 1,
+          "aps_algo_couple_hdr": 0,
+          "aps_algo_cfr": 0,
+          "aps_algo_portrait_supernight": 0,
+          "aps_algo_ai_deblur": 0,
+          "aps_algo_merge_hdr": 0,
+          "aps_algo_turbo_hdr": 1,
+          "aps_algo_sw_png_encode": 1,
+          "aps_algo_oplus_segment": 1,
+          "aps_algo_fb_hdr_convert": 1,
+          "aps_algo_mask_refine": 0,
+          "aps_algo_hybridraw": 1,
+          "aps_algo_basic_tone": 0,
+          "aps_algo_hdr_transform": 1
         }
       ]
     },
@@ -1098,13 +971,13 @@
           "aps_algo_dered_eye": 0,
           "aps_algo_super_raw": 0,
           "aps_algo_turbo_hdr": 0,
+          "aps_algo_dcg_fusion": 1,
           "aps_algo_hybridraw": 1,
           "aps_algo_basic_tone": 1,
           "aps_algo_hdr_transform": 1,
           "aps_algo_mask_refine": 1,
           "aps_algo_cfr": 1,
-          "aps_algo_mfnr": 1,
-          "aps_algo_dcg_fusion": 1
+          "aps_algo_mfll": 1
         },
         {
           "id": 1,
@@ -1120,17 +993,17 @@
       "entity": [
         {
           "id": 0,
-          "camera_num": 3,
+          "camera_num": 1,
           "separate_preview_video": 0,
           "pipelines": {
             "preview": {
               "enable": 1,
               "master_input_width": 1440,
               "master_input_height": 1080,
-              "slave_input_width": 1440,
-              "slave_input_height": 1080,
-              "third_input_width": 1440,
-              "third_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
               "output_width": 1440,
               "output_height": 1080,
               "skip_frame_cnt": 0,
@@ -1138,7 +1011,8 @@
               "algonode_copy_from": "",
               "algo_list": [
                 "preview_rectify",
-                "preview_supereis"
+                "preview_supereis",
+                "preview_antibanding"
               ]
             },
             "video": {
@@ -1154,7 +1028,7 @@
               "third_input_height": 0,
               "output_width": 1440,
               "output_height": 1080,
-              "skip_frame_cnt": 0,
+              "skip_frame_cnt": 7,
               "pipeline_copy_from": "pipeline_default",
               "algonode_copy_from": "preview_default",
               "algo_list": [
@@ -1199,103 +1073,7 @@
               "third_input_height": 0,
               "output_width": 1440,
               "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "pipeline_default",
-              "algonode_copy_from": "preview_default",
-              "algo_list": [
-                "preview_asd",
-                "preview_gesture"
-              ]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "mode": "retroCamera",
-      "entity": [
-        {
-          "id": 0,
-          "camera_num": 3,
-          "separate_preview_video": 0,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 1440,
-              "master_input_height": 1080,
-              "slave_input_width": 1440,
-              "slave_input_height": 1080,
-              "third_input_width": 1440,
-              "third_input_height": 1080,
-              "output_width": 1440,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_rectify",
-                "preview_supereis"
-              ]
-            },
-            "video": {
-              "enable": 0
-            },
-            "asd": {
-              "enable": 1,
-              "master_input_width": 1440,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1440,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "pipeline_default",
-              "algonode_copy_from": "preview_default",
-              "algo_list": [
-                "preview_asd",
-                "preview_document_detection"
-              ]
-            }
-          }
-        },
-        {
-          "id": 1,
-          "camera_num": 1,
-          "separate_preview_video": 0,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 1440,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1440,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_default"
-              ]
-            },
-            "video": {
-              "enable": 0
-            },
-            "asd": {
-              "enable": 1,
-              "master_input_width": 1440,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1440,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
+              "skip_frame_cnt": 3,
               "pipeline_copy_from": "pipeline_default",
               "algonode_copy_from": "preview_default",
               "algo_list": [
@@ -1329,7 +1107,7 @@
               "pipeline_copy_from": "",
               "algonode_copy_from": "",
               "algo_list": [
-                "preview_supereis"
+                "preview_default"
               ]
             },
             "video": {
@@ -1345,7 +1123,7 @@
               "third_input_height": 0,
               "output_width": 1440,
               "output_height": 1080,
-              "skip_frame_cnt": 0,
+              "skip_frame_cnt": 7,
               "pipeline_copy_from": "pipeline_default",
               "algonode_copy_from": "preview_default",
               "algo_list": [
@@ -1389,7 +1167,7 @@
               "third_input_height": 0,
               "output_width": 1440,
               "output_height": 1080,
-              "skip_frame_cnt": 0,
+              "skip_frame_cnt": 7,
               "pipeline_copy_from": "pipeline_default",
               "algonode_copy_from": "preview_default",
               "algo_list": [
@@ -1460,85 +1238,6 @@
             },
             "asd": {
               "enable": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "mode": "idPhoto",
-      "entity": [
-        {
-          "id": 0,
-          "camera_num": 1,
-          "separate_preview_video": 0,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 1440,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1440,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_default"
-              ]
-            },
-            "video": {
-              "enable": 0
-            },
-            "asd": {
-              "enable": 0
-            }
-          }
-        },
-        {
-          "id": 1,
-          "camera_num": 1,
-          "separate_preview_video": 0,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 1440,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1440,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_default"
-              ]
-            },
-            "video": {
-              "enable": 0
-            },
-            "asd": {
-              "enable": 1,
-              "master_input_width": 1440,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1440,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "pipeline_default",
-              "algonode_copy_from": "preview_default",
-              "algo_list": [
-                "preview_gesture"
-              ]
             }
           }
         }
@@ -1686,10 +1385,10 @@
               "enable": 1,
               "master_input_width": 1440,
               "master_input_height": 1080,
-              "slave_input_width": 1440,
-              "slave_input_height": 1080,
-              "third_input_width": 1440,
-              "third_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
               "output_width": 1440,
               "output_height": 1080,
               "skip_frame_cnt": 0,
@@ -1712,7 +1411,7 @@
               "third_input_height": 0,
               "output_width": 1440,
               "output_height": 1080,
-              "skip_frame_cnt": 0,
+              "skip_frame_cnt": 7,
               "pipeline_copy_from": "pipeline_default",
               "algonode_copy_from": "preview_default",
               "algo_list": [
@@ -1761,7 +1460,85 @@
               "pipeline_copy_from": "pipeline_default",
               "algonode_copy_from": "preview_default",
               "algo_list": [
-                "preview_asd",
+                "preview_gesture"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "idPhoto",
+      "entity": [
+        {
+          "id": 0,
+          "camera_num": 1,
+          "separate_preview_video": 0,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1440,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1440,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_default"
+              ]
+            },
+            "video": {
+              "enable": 0
+            },
+            "asd": {
+              "enable": 0
+            }
+          }
+        },
+        {
+          "id": 1,
+          "camera_num": 1,
+          "separate_preview_video": 0,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1440,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1440,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_default"
+              ]
+            },
+            "video": {
+              "enable": 0
+            },
+            "asd": {
+              "enable": 1,
+              "master_input_width": 1440,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1440,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "pipeline_default",
+              "algonode_copy_from": "preview_default",
+              "algo_list": [
                 "preview_gesture"
               ]
             }
@@ -1807,7 +1584,7 @@
               "third_input_height": 0,
               "output_width": 1440,
               "output_height": 1080,
-              "skip_frame_cnt": 0,
+              "skip_frame_cnt": 7,
               "pipeline_copy_from": "pipeline_default",
               "algonode_copy_from": "preview_default",
               "algo_list": [
@@ -1852,7 +1629,7 @@
               "third_input_height": 0,
               "output_width": 1440,
               "output_height": 1080,
-              "skip_frame_cnt": 0,
+              "skip_frame_cnt": 7,
               "pipeline_copy_from": "pipeline_default",
               "algonode_copy_from": "preview_default",
               "algo_list": [
@@ -1899,7 +1676,7 @@
       ]
     },
     {
-      "mode": "xpan_parallel",
+      "mode": "panorama",
       "entity": [
         {
           "id": 0,
@@ -1910,41 +1687,6 @@
               "enable": 1,
               "master_input_width": 1440,
               "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1440,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_default"
-              ]
-            },
-            "video": {
-              "enable": 0
-            },
-            "asd": {
-              "enable": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "mode": "panorama",
-      "entity": [
-        {
-          "id": 0,
-          "camera_num": 1,
-          "separate_preview_video": 0,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 3200,
-              "master_input_height": 1440,
               "slave_input_width": 0,
               "slave_input_height": 0,
               "third_input_width": 0,
@@ -1986,6 +1728,41 @@
               "algonode_copy_from": "",
               "algo_list": [
                 "preview_default"
+              ]
+            },
+            "video": {
+              "enable": 0
+            },
+            "asd": {
+              "enable": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "professional",
+      "entity": [
+        {
+          "id": 0,
+          "camera_num": 1,
+          "separate_preview_video": 0,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1440,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1440,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_rectify"
               ]
             },
             "video": {
@@ -2042,7 +1819,21 @@
           "separate_preview_video": 0,
           "pipelines": {
             "preview": {
-              "enable": 0
+              "enable": 1,
+              "master_input_width": 1440,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1440,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_default"
+              ]
             },
             "video": {
               "enable": 0
@@ -2058,7 +1849,21 @@
           "separate_preview_video": 0,
           "pipelines": {
             "preview": {
-              "enable": 1
+              "enable": 1,
+              "master_input_width": 1440,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1440,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_default"
+              ]
             },
             "video": {
               "enable": 0
@@ -2085,7 +1890,7 @@
       ]
     },
     {
-      "mode": "groupshot",
+      "mode": "macro",
       "entity": [
         {
           "id": 0,
@@ -2190,7 +1995,7 @@
               "pipeline_copy_from": "",
               "algonode_copy_from": "",
               "algo_list": [
-                "preview_default"
+                "preview_antibanding"
               ]
             },
             "video": {
@@ -2212,17 +2017,17 @@
             },
             "asd": {
               "enable": 1,
-              "master_input_width": 1920,
+              "master_input_width": 1440,
               "master_input_height": 1080,
               "slave_input_width": 0,
               "slave_input_height": 0,
               "third_input_width": 0,
               "third_input_height": 0,
-              "output_width": 1920,
+              "output_width": 1440,
               "output_height": 1080,
-              "skip_frame_cnt": 0,
+              "skip_frame_cnt": 3,
               "pipeline_copy_from": "pipeline_default",
-              "algonode_copy_from": "pipeline_default",
+              "algonode_copy_from": "preview_default",
               "algo_list": [
                 "preview_asd"
               ]
@@ -2253,6 +2058,55 @@
             },
             "video": {
               "enable": 1,
+              "master_input_width": 1920,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1920,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "video_watermark_process_on_output"
+              ]
+            },
+            "asd": {
+              "enable": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "aiEnhancement",
+      "entity": [
+        {
+          "id": 0,
+          "camera_num": 1,
+          "separate_preview_video": 1,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1280,
+              "master_input_height": 720,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1280,
+              "output_height": 720,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_default"
+              ]
+            },
+            "video": {
+              "enable": 1,
               "master_input_width": 1280,
               "master_input_height": 720,
               "slave_input_width": 0,
@@ -2267,6 +2121,208 @@
               "algo_list": [
                 "video_watermark_process_on_output"
               ]
+            },
+            "asd": {
+              "enable": 0
+            }
+          }
+        },
+        {
+          "id": 1,
+          "camera_num": 1,
+          "separate_preview_video": 1,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1280,
+              "master_input_height": 720,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1280,
+              "output_height": 720,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_default"
+              ]
+            },
+            "video": {
+              "enable": 1,
+              "master_input_width": 1280,
+              "master_input_height": 720,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1280,
+              "output_height": 720,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "video_watermark_process_on_output"
+              ]
+            },
+            "asd": {
+              "enable": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "dolbyVideo",
+      "entity": [
+        {
+          "id": 0,
+          "camera_num": 1,
+          "separate_preview_video": 1,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1280,
+              "master_input_height": 720,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1280,
+              "output_height": 720,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_default"
+              ]
+            },
+            "video": {
+              "enable": 1,
+              "master_input_width": 1280,
+              "master_input_height": 720,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1280,
+              "output_height": 720,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "video_watermark_process_on_output"
+              ]
+            },
+            "asd": {
+              "enable": 0
+            }
+          }
+        },
+        {
+          "id": 1,
+          "camera_num": 1,
+          "separate_preview_video": 1,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1280,
+              "master_input_height": 720,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1280,
+              "output_height": 720,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_default"
+              ]
+            },
+            "video": {
+              "enable": 1,
+              "master_input_width": 1280,
+              "master_input_height": 720,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1280,
+              "output_height": 720,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "video_watermark_process_on_output"
+              ]
+            },
+            "asd": {
+              "enable": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "logVideo",
+      "entity": [
+        {
+          "id": 0,
+          "camera_num": 1,
+          "separate_preview_video": 1,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1920,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1920,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_default"
+              ]
+            },
+            "video": {
+              "enable": 0
+            },
+            "asd": {
+              "enable": 0
+            }
+          }
+        },
+        {
+          "id": 1,
+          "camera_num": 1,
+          "separate_preview_video": 1,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1280,
+              "master_input_height": 720,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1280,
+              "output_height": 720,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_default"
+              ]
+            },
+            "video": {
+              "enable": 0
             },
             "asd": {
               "enable": 0
@@ -2393,10 +2449,38 @@
           "separate_preview_video": 0,
           "pipelines": {
             "preview": {
-              "enable": 0
+              "enable": 1,
+              "master_input_width": 1920,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1920,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_default"
+              ]
             },
             "video": {
-              "enable": 0
+              "enable": 1,
+              "master_input_width": 1920,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1920,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "video_watermark_process_on_output"
+              ]
             },
             "asd": {
               "enable": 0
@@ -2475,7 +2559,7 @@
       "entity": [
         {
           "id": 0,
-          "camera_num": 3,
+          "camera_num": 1,
           "separate_preview_video": 1,
           "pipelines": {
             "preview": {
@@ -2506,10 +2590,10 @@
               "output_width": 1920,
               "output_height": 1080,
               "skip_frame_cnt": 0,
-              "pipeline_copy_from": "pipeline_preview",
-              "algonode_copy_from": "preview_offline_ipe",
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
               "algo_list": [
-                "preview_video_eis"
+                "video_watermark_process_on_output"
               ]
             },
             "asd": {
@@ -2569,7 +2653,56 @@
         {
           "id": 0,
           "camera_num": 1,
-          "separate_preview_video": 0,
+          "separate_preview_video": 1,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1280,
+              "master_input_height": 720,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1280,
+              "output_height": 720,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_default"
+              ]
+            },
+            "video": {
+              "enable": 1,
+              "master_input_width": 1280,
+              "master_input_height": 720,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1280,
+              "output_height": 720,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_video_frc"
+              ]
+            },
+            "asd": {
+              "enable": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "hyperlapseVideo",
+      "entity": [
+        {
+          "id": 0,
+          "camera_num": 1,
+          "separate_preview_video": 1,
           "pipelines": {
             "preview": {
               "enable": 1,
@@ -2589,7 +2722,166 @@
               ]
             },
             "video": {
+              "enable": 1,
+              "master_input_width": 2560,
+              "master_input_height": 1920,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1920,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_video_hyperlapse",
+                "video_watermark_process_on_input"
+              ]
+            },
+            "asd": {
               "enable": 0
+            }
+          }
+        },
+        {
+          "id": 1,
+          "camera_num": 1,
+          "separate_preview_video": 1,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1920,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1920,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_default"
+              ]
+            },
+            "video": {
+              "enable": 1,
+              "master_input_width": 2132,
+              "master_input_height": 1599,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1920,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_video_hyperlapse",
+                "video_watermark_process_on_input"
+              ]
+            },
+            "asd": {
+              "enable": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "hyperlapseProVideo",
+      "entity": [
+        {
+          "id": 0,
+          "camera_num": 1,
+          "separate_preview_video": 1,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1920,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1920,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_hyperlapse"
+              ]
+            },
+            "video": {
+              "enable": 1,
+              "master_input_width": 2560,
+              "master_input_height": 1440,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1920,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_video_hyperlapse",
+                "video_watermark_process_on_input"
+              ]
+            },
+            "asd": {
+              "enable": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "movie",
+      "entity": [
+        {
+          "id": 0,
+          "camera_num": 1,
+          "separate_preview_video": 1,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 3840,
+              "master_input_height": 1646,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 3840,
+              "output_height": 1646,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_default"
+              ]
+            },
+            "video": {
+              "enable": 1,
+              "master_input_width": 3840,
+              "master_input_height": 1646,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 3840,
+              "output_height": 1646,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "video_watermark_process_on_output"
+              ]
             },
             "asd": {
               "enable": 0
@@ -2620,7 +2912,74 @@
               "pipeline_copy_from": "",
               "algonode_copy_from": "",
               "algo_list": [
-                "preview_supereis"
+                "preview_supereis",
+                "preview_antibanding"
+              ]
+            },
+            "video": {
+              "enable": 0
+            },
+            "asd": {
+              "enable": 1,
+              "master_input_width": 1440,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1440,
+              "output_height": 1080,
+              "skip_frame_cnt": 3,
+              "pipeline_copy_from": "pipeline_default",
+              "algonode_copy_from": "preview_default",
+              "algo_list": [
+                "preview_asd",
+                "preview_document_detection"
+              ]
+            }
+          }
+        },
+        {
+          "id": 1,
+          "camera_num": 1,
+          "separate_preview_video": 0,
+          "pipelines": {
+            "preview": {
+              "enable": 0
+            },
+            "video": {
+              "enable": 0
+            },
+            "asd": {
+              "enable": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "commonSatHalBurstCap",
+      "entity": [
+        {
+          "id": 0,
+          "camera_num": 1,
+          "separate_preview_video": 0,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1440,
+              "master_input_height": 1080,
+              "slave_input_width": 1440,
+              "slave_input_height": 1080,
+              "third_input_width": 1440,
+              "third_input_height": 1080,
+              "output_width": 1440,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_antibanding"
               ]
             },
             "video": {
@@ -2644,22 +3003,6 @@
                 "preview_document_detection",
                 "preview_gesture"
               ]
-            }
-          }
-        },
-        {
-          "id": 1,
-          "camera_num": 1,
-          "separate_preview_video": 0,
-          "pipelines": {
-            "preview": {
-              "enable": 0
-            },
-            "video": {
-              "enable": 0
-            },
-            "asd": {
-              "enable": 0
             }
           }
         }
@@ -2709,17 +3052,17 @@
             },
             "asd": {
               "enable": 1,
-              "master_input_width": 1920,
+              "master_input_width": 1440,
               "master_input_height": 1080,
               "slave_input_width": 0,
               "slave_input_height": 0,
               "third_input_width": 0,
               "third_input_height": 0,
-              "output_width": 1920,
+              "output_width": 1440,
               "output_height": 1080,
-              "skip_frame_cnt": 0,
+              "skip_frame_cnt": 3,
               "pipeline_copy_from": "pipeline_default",
-              "algonode_copy_from": "pipeline_default",
+              "algonode_copy_from": "preview_default",
               "algo_list": [
                 "preview_asd"
               ]
@@ -2766,21 +3109,7 @@
               ]
             },
             "asd": {
-              "enable": 1,
-              "master_input_width": 1920,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1920,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "pipeline_default",
-              "algonode_copy_from": "pipeline_default",
-              "algo_list": [
-                "preview_asd"
-              ]
+              "enable": 0
             }
           }
         }
@@ -2836,500 +3165,6 @@
       ]
     },
     {
-      "mode": "ultraNight",
-      "entity": [
-        {
-          "id": 0,
-          "camera_num": 1,
-          "separate_preview_video": 1,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 1920,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1920,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_default"
-              ]
-            },
-            "video": {
-              "enable": 1,
-              "master_input_width": 1920,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1920,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "video_watermark_process_on_output"
-              ]
-            },
-            "asd": {
-              "enable": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "mode": "hyperlapseVideo",
-      "entity": [
-        {
-          "id": 0,
-          "camera_num": 1,
-          "separate_preview_video": 1,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 2560,
-              "master_input_height": 1440,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1920,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_default"
-              ]
-            },
-            "video": {
-              "enable": 1,
-              "master_input_width": 2560,
-              "master_input_height": 1440,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1920,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_video_hyperlapse",
-                "video_watermark_process_on_input"
-              ]
-            },
-            "asd": {
-              "enable": 0
-            }
-          }
-        },
-        {
-          "id": 1,
-          "camera_num": 1,
-          "separate_preview_video": 1,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 1920,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1920,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_default"
-              ]
-            },
-            "video": {
-              "enable": 1,
-              "master_input_width": 2110,
-              "master_input_height": 1186,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1920,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_video_hyperlapse",
-                "video_watermark_process_on_input"
-              ]
-            },
-            "asd": {
-              "enable": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "mode": "hyperlapseProVideo",
-      "entity": [
-        {
-          "id": 0,
-          "camera_num": 1,
-          "separate_preview_video": 1,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 2560,
-              "master_input_height": 1440,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1920,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_hyperlapse"
-              ]
-            },
-            "video": {
-              "enable": 1,
-              "master_input_width": 2560,
-              "master_input_height": 1440,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1920,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_video_hyperlapse",
-                "video_watermark_process_on_input"
-              ]
-            },
-            "asd": {
-              "enable": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "mode": "aiEnhancement",
-      "entity": [
-        {
-          "id": 0,
-          "camera_num": 1,
-          "separate_preview_video": 1,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 1920,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1920,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_default"
-              ]
-            },
-            "video": {
-              "enable": 1,
-              "master_input_width": 1920,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1920,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "video_watermark_process_on_output"
-              ]
-            },
-            "asd": {
-              "enable": 0
-            }
-          }
-        },
-        {
-          "id": 1,
-          "camera_num": 1,
-          "separate_preview_video": 1,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 1280,
-              "master_input_height": 720,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1280,
-              "output_height": 720,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_default"
-              ]
-            },
-            "video": {
-              "enable": 1,
-              "master_input_width": 1280,
-              "master_input_height": 720,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1280,
-              "output_height": 720,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "video_watermark_process_on_output"
-              ]
-            },
-            "asd": {
-              "enable": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "mode": "dolbyVideo",
-      "entity": [
-        {
-          "id": 0,
-          "camera_num": 1,
-          "separate_preview_video": 1,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 1920,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1920,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_default"
-              ]
-            },
-            "video": {
-              "enable": 1,
-              "master_input_width": 1920,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1920,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "video_watermark_process_on_output"
-              ]
-            },
-            "asd": {
-              "enable": 0
-            }
-          }
-        },
-        {
-          "id": 1,
-          "camera_num": 1,
-          "separate_preview_video": 1,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 1280,
-              "master_input_height": 720,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1280,
-              "output_height": 720,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_default"
-              ]
-            },
-            "video": {
-              "enable": 1,
-              "master_input_width": 1280,
-              "master_input_height": 720,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1280,
-              "output_height": 720,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "video_watermark_process_on_output"
-              ]
-            },
-            "asd": {
-              "enable": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "mode": "logVideo",
-      "entity": [
-        {
-          "id": 0,
-          "camera_num": 1,
-          "separate_preview_video": 1,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 1920,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1920,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_default"
-              ]
-            },
-            "video": {
-              "enable": 0
-            },
-            "asd": {
-              "enable": 0
-            }
-          }
-        },
-        {
-          "id": 1,
-          "camera_num": 1,
-          "separate_preview_video": 1,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 1280,
-              "master_input_height": 720,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1280,
-              "output_height": 720,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_default"
-              ]
-            },
-            "video": {
-              "enable": 0
-            },
-            "asd": {
-              "enable": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "mode": "movie",
-      "entity": [
-        {
-          "id": 0,
-          "camera_num": 1,
-          "separate_preview_video": 1,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 3168,
-              "master_input_height": 1358,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 3168,
-              "output_height": 1358,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_default"
-              ]
-            },
-            "video": {
-              "enable": 1,
-              "master_input_width": 3168,
-              "master_input_height": 1358,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 3168,
-              "output_height": 1358,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "video_watermark_process_on_output"
-              ]
-            },
-            "asd": {
-              "enable": 0
-            }
-          }
-        }
-      ]
-    },
-    {
       "mode": "movieNoEis",
       "entity": [
         {
@@ -3339,14 +3174,14 @@
           "pipelines": {
             "preview": {
               "enable": 1,
-              "master_input_width": 3168,
-              "master_input_height": 1358,
+              "master_input_width": 3840,
+              "master_input_height": 1646,
               "slave_input_width": 0,
               "slave_input_height": 0,
               "third_input_width": 0,
               "third_input_height": 0,
-              "output_width": 3168,
-              "output_height": 1358,
+              "output_width": 3840,
+              "output_height": 1646,
               "skip_frame_cnt": 0,
               "pipeline_copy_from": "",
               "algonode_copy_from": "",
@@ -3356,14 +3191,14 @@
             },
             "video": {
               "enable": 1,
-              "master_input_width": 3168,
-              "master_input_height": 1358,
+              "master_input_width": 3840,
+              "master_input_height": 1646,
               "slave_input_width": 0,
               "slave_input_height": 0,
               "third_input_width": 0,
               "third_input_height": 0,
-              "output_width": 3168,
-              "output_height": 1358,
+              "output_width": 3840,
+              "output_height": 1646,
               "skip_frame_cnt": 0,
               "pipeline_copy_from": "",
               "algonode_copy_from": "",
@@ -3373,94 +3208,6 @@
             },
             "asd": {
               "enable": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "mode": "microscope",
-      "entity": [
-        {
-          "id": 0,
-          "camera_num": 1,
-          "separate_preview_video": 1,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 1920,
-              "master_input_height": 1440,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1920,
-              "output_height": 1440,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_default"
-              ]
-            },
-            "video": {
-              "enable": 0
-            },
-            "asd": {
-              "enable": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "mode": "longExposure",
-      "entity": [
-        {
-          "id": 0,
-          "camera_num": 1,
-          "separate_preview_video": 0,
-          "pipelines": {
-            "preview": {
-              "enable": 1,
-              "master_input_width": 1440,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1440,
-              "output_height": 1080,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_long_exposure",
-                "preview_rectify"
-              ]
-            },
-            "video": {
-              "enable": 0
-            },
-            "asd": {
-              "enable": 0
-            },
-            "capture": {
-              "enable": 1,
-              "master_input_width": 4096,
-              "master_input_height": 3072,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 4096,
-              "output_height": 3072,
-              "skip_frame_cnt": 0,
-              "pipeline_copy_from": "",
-              "algonode_copy_from": "",
-              "algo_list": [
-                "preview_long_exposure"
-              ]
             }
           }
         }
@@ -3488,8 +3235,8 @@
               "pipeline_copy_from": "",
               "algonode_copy_from": "",
               "algo_list": [
-                "preview_rectify",
-                "preview_edge_filter"
+                "preview_edge_filter",
+                "preview_rectify"
               ]
             },
             "video": {
@@ -3653,21 +3400,74 @@
       ]
     },
     {
-      "mode": "aiHighPixel",
+      "mode": "longExposure",
       "entity": [
         {
           "id": 0,
-          "camera_num": 3,
+          "camera_num": 1,
           "separate_preview_video": 0,
           "pipelines": {
             "preview": {
               "enable": 1,
               "master_input_width": 1440,
               "master_input_height": 1080,
-              "slave_input_width": 1440,
-              "slave_input_height": 1080,
-              "third_input_width": 1440,
-              "third_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1440,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_rectify",
+                "preview_long_exposure"
+              ]
+            },
+            "video": {
+              "enable": 0
+            },
+            "asd": {
+              "enable": 0
+            },
+            "capture": {
+              "enable": 1,
+              "master_input_width": 4096,
+              "master_input_height": 3072,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 4096,
+              "output_height": 3072,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_long_exposure"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "aiHighPixel",
+      "entity": [
+        {
+          "id": 0,
+          "camera_num": 1,
+          "separate_preview_video": 0,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1440,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
               "output_width": 1440,
               "output_height": 1080,
               "skip_frame_cnt": 0,
@@ -3681,21 +3481,7 @@
               "enable": 0
             },
             "asd": {
-              "enable": 1,
-              "master_input_width": 1440,
-              "master_input_height": 1080,
-              "slave_input_width": 0,
-              "slave_input_height": 0,
-              "third_input_width": 0,
-              "third_input_height": 0,
-              "output_width": 1440,
-              "output_height": 1080,
-              "skip_frame_cnt": 3,
-              "pipeline_copy_from": "pipeline_default",
-              "algonode_copy_from": "preview_default",
-              "algo_list": [
-                "preview_asd"
-              ]
+              "enable": 0
             }
           }
         },
@@ -3738,6 +3524,103 @@
               "pipeline_copy_from": "pipeline_default",
               "algonode_copy_from": "preview_default",
               "algo_list": [
+                "preview_gesture"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "retroCamera",
+      "entity": [
+        {
+          "id": 0,
+          "camera_num": 1,
+          "separate_preview_video": 0,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1440,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1440,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_rectify",
+                "preview_supereis",
+                "preview_antibanding"
+              ]
+            },
+            "video": {
+              "enable": 0
+            },
+            "asd": {
+              "enable": 1,
+              "master_input_width": 1440,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1440,
+              "output_height": 1080,
+              "skip_frame_cnt": 7,
+              "pipeline_copy_from": "pipeline_default",
+              "algonode_copy_from": "preview_default",
+              "algo_list": [
+                "preview_asd",
+                "preview_document_detection"
+              ]
+            }
+          }
+        },
+        {
+          "id": 1,
+          "camera_num": 1,
+          "separate_preview_video": 0,
+          "pipelines": {
+            "preview": {
+              "enable": 1,
+              "master_input_width": 1440,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1440,
+              "output_height": 1080,
+              "skip_frame_cnt": 0,
+              "pipeline_copy_from": "",
+              "algonode_copy_from": "",
+              "algo_list": [
+                "preview_default"
+              ]
+            },
+            "video": {
+              "enable": 0
+            },
+            "asd": {
+              "enable": 1,
+              "master_input_width": 1440,
+              "master_input_height": 1080,
+              "slave_input_width": 0,
+              "slave_input_height": 0,
+              "third_input_width": 0,
+              "third_input_height": 0,
+              "output_width": 1440,
+              "output_height": 1080,
+              "skip_frame_cnt": 3,
+              "pipeline_copy_from": "pipeline_default",
+              "algonode_copy_from": "preview_default",
+              "algo_list": [
+                "preview_asd",
                 "preview_gesture"
               ]
             }

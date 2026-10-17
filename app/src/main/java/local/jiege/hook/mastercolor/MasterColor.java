@@ -54,7 +54,11 @@ public final class MasterColor {
     private static final float PREVIEW_MATRIX_CHANGE = 0.02f;
     private static final long SETTING_INTERVAL_MS = 1000;
 
-    private static final CaptureResult.Key<Integer> AWB_CCT = key("org.quic.camera2.statsconfigs.AWBFrameControlCCT", Integer.class);
+    // PME110's live result advertises this MTK int32 tag; the Qualcomm key is absent.
+    private static final CaptureResult.Key<Integer> AWB_CCT = key("com.mediatek.3afeature.awbColorTemperature", Integer.class);
+    private static final CaptureResult.Key<int[]> BPS_GAMMA = key("com.oplus.bps.gamma.info", int[].class);
+    private static final CaptureResult.Key<float[]> SRGB_CAP_GAMMA = key("com.oplus.srgb.cap.gamma.info", float[].class);
+    private static native float mtkExposure(float[] srgbGamma);
 
     private static volatile boolean enabled = true;
     private static volatile String look;
@@ -75,6 +79,8 @@ public final class MasterColor {
     private static String keyIdentity;
     private static int previewCct;
     private static float[] previewCcm;
+    private static float[] previewGamma;
+    private static float previewExposureOffset;
     private static final Map<String, String> lenses = new HashMap<>();
     private static volatile String previewDir;
     private static volatile String loadedDir;
@@ -85,17 +91,18 @@ public final class MasterColor {
     // baked before it is published, so the camera never waits for a bake.
     private static final class Request {
         final int generation, cct;
-        final float[] ccm;
+        final float[] ccm, gamma;
         final String look, lens;
         final float ev;
         final int tone, colour;
         final int[] density, values;
-        Request(int generation, int cct, float[] ccm, String look, float ev, int tone, int colour, int[] density, String lens, int[] values) {
+        Request(int generation, int cct, float[] ccm, String look, float ev, int tone, int colour, int[] density, String lens, int[] values, float[] gamma) {
             this.generation = generation; this.cct = cct; this.ccm = ccm; this.look = look; this.ev = ev;
             this.tone = tone; this.colour = colour; this.density = density; this.lens = lens; this.values = values;
+            this.gamma = gamma;
         }
     }
-    private static final Request CLEAR = new Request(0, 0, null, null, 0, 0, 0, null, null, null);
+    private static final Request CLEAR = new Request(0, 0, null, null, 0, 0, 0, null, null, null, null);
     private static final Object QUEUE = new Object();
     private static Request pending;
     private static Thread worker;
@@ -259,7 +266,7 @@ public final class MasterColor {
     private static void process(Request request) throws Throwable {
         String dir = null;
         if (request != CLEAR) {
-            dir = writeKey(request.cct, request.ccm, request.look, request.ev, request.tone, request.colour, request.density, request.lens, request.values);
+            dir = writeKey(request.cct, request.ccm, request.look, request.ev, request.tone, request.colour, request.density, request.lens, request.values, request.gamma);
             if (dir == null) { clearPreview("preview: key write failed"); return; }
             // The native path hooks bake a table on the first read of its LMTLut0, here and not on a camera thread.
             if (superseded()) return;   // a newer table is already asked for: bake that one
@@ -334,8 +341,6 @@ public final class MasterColor {
 
     // Scene front stage lenses (scene.bin, tools/mastercolor/export_scene.py): the 35 mm equivalent focal length
     // of a physical rear camera selects its colour calibration; within 25 % of a listed focal length.
-    private static final String[] LENS_NAMES = {"uw14", "main23", "tele70", "tele230"};
-    private static final double[] LENS_FOCALS = {14, 23, 70, 230};
 
     private static String lens(String id) {
         String cached = lenses.get(id);
@@ -358,16 +363,11 @@ public final class MasterColor {
             android.util.SizeF size = c.get(CameraCharacteristics.SENSOR_INFO_PHYSICAL_SIZE);
             if (!c.getPhysicalCameraIds().isEmpty() || facing == null || facing != CameraCharacteristics.LENS_FACING_BACK
                 || focals == null || focals.length == 0 || size == null || focals[0] <= 0) return null;
-            double equivalent = focals[0] * 43.2666 / Math.hypot(size.getWidth(), size.getHeight());
-            int best = -1;
-            double bestError = Math.log(1.25);
-            for (int i = 0; i < LENS_FOCALS.length; ++i) {
-                double error = Math.abs(Math.log(equivalent / LENS_FOCALS[i]));
-                if (error <= bestError) { bestError = error; best = i; }
-            }
-            if (best < 0) return null;
-            lenses.put(id, LENS_NAMES[best]);
-            return LENS_NAMES[best];
+            // export_x9spro_scene.py uses exact physical IDs instead of Ultra focal labels.
+            if (!"2".equals(id) && !"3".equals(id) && !"4".equals(id)) return null;
+            String name = "camera" + id;
+            lenses.put(id, name);
+            return name;
         } catch (Throwable error) {
             Log.e(TAG, "lens " + id, error);
             return null;
@@ -408,7 +408,9 @@ public final class MasterColor {
         String lens = lens(id);
         Integer cct = (Integer) read(metadata, AWB_CCT);
         float[] ccm = matrix((ColorSpaceTransform) read(metadata, CaptureResult.COLOR_CORRECTION_TRANSFORM));
-        if (lens == null || cct == null || cct < 1500 || cct > 20000 || ccm == null) {
+        float[] gamma = decodeGamma(read(metadata, BPS_GAMMA));
+        float calibrationEv = mtkExposure(read(metadata, SRGB_CAP_GAMMA));
+        if (lens == null || cct == null || cct < 1500 || cct > 20000 || ccm == null || gamma == null || !Float.isFinite(calibrationEv)) {
             clearPreview("preview: incomplete colour metadata for camera " + id); return;
         }
         for (int i = 0; i < ccm.length; ++i) ccm[i] = Math.round(ccm[i] * 256f) / 256f;
@@ -417,12 +419,27 @@ public final class MasterColor {
             bucket = Math.max(1700, Math.min(15000, (cct + CCT_STEP / 2) / CCT_STEP * CCT_STEP));
         if (id.equals(keyIdentity)
             && bucket == previewCct
-            && maxDifference(ccm, previewCcm) < PREVIEW_MATRIX_CHANGE) return;
+            && maxDifference(ccm, previewCcm) < PREVIEW_MATRIX_CHANGE && Arrays.equals(gamma, previewGamma)
+            && Math.abs(calibrationEv - previewExposureOffset) < .01f) return;
         keyIdentity = id;
         previewCct = bucket;
         previewCcm = ccm;
+        previewGamma = gamma;
+        previewExposureOffset = calibrationEv;
         Log.i(TAG, "preview key camera=" + id + " look=" + look + " cct=" + bucket);
-        submit(new Request(generation, bucket, ccm, look, exposureEv, tonePercent, colourPercent, densityPercent, lens, paramValues));
+        submit(new Request(generation, bucket, ccm, look, exposureEv + calibrationEv, tonePercent, colourPercent, densityPercent, lens, paramValues, gamma));
+    }
+
+    private static float[] decodeGamma(int[] raw) {
+        if (raw == null || raw.length != 257 || raw[0] != 0 || raw[256] < 410) return null;
+        float[] gamma = new float[257];
+        int previous = 0;
+        for (int i = 0; i < raw.length; ++i) {
+            if (raw[i] < previous || raw[i] > 4095) return null;
+            previous = raw[i];
+            gamma[i] = raw[i] / 4095f;
+        }
+        return gamma;
     }
 
     private static float maxDifference(float[] a, float[] b) {
@@ -447,14 +464,16 @@ public final class MasterColor {
         return text.toString();
     }
 
-    /** MCOLKEY8 carries the scene front stage lens and the four look parameters. */
-    private static String writeKey(int cct, float[] ccm, String look, float ev, int tonePercent, int colourPercent, int[] density, String lens, int[] values) {
+    /** MCOLKEY9 adds the real MTK per-frame gamma curve. */
+    private static String writeKey(int cct, float[] ccm, String look, float ev, int tonePercent, int colourPercent, int[] density, String lens, int[] values, float[] gamma) {
         float[] parameters = parameterFloats(MasterLooks.paramsFor(look), values);
         boolean blended = tonePercent < 100 || colourPercent < 100;
         float tone = tonePercent / 100f, colour = colourPercent / 100f;
         byte[] name = look.getBytes(StandardCharsets.US_ASCII);
         long hash = 1469598103934665603L;
+        if (gamma.length > 0) hash = (hash ^ 0x4d544b32L) * 1099511628211L;
         for (float v : ccm) hash = (hash ^ Float.floatToIntBits(v)) * 1099511628211L;
+        for (float v : gamma) hash = (hash ^ Float.floatToIntBits(v)) * 1099511628211L;
         for (byte b : name) hash = (hash ^ (b & 0xff)) * 1099511628211L;
         if (ev != 0) hash = (hash ^ Float.floatToIntBits(ev)) * 1099511628211L;
         if (blended) hash = (((hash ^ Float.floatToIntBits(tone)) * 1099511628211L) ^ Float.floatToIntBits(colour)) * 1099511628211L;
@@ -470,11 +489,12 @@ public final class MasterColor {
             key.setLastModified(System.currentTimeMillis()); // recently used: native pruning keeps it
             return dir;
         }
-        ByteBuffer buffer = ByteBuffer.allocate(8 + 4 * 4 + 9 * 4 + 4 + name.length + 4 + 8 + 12 + 4 + camera.length + 16).order(ByteOrder.LITTLE_ENDIAN);
-        buffer.put("MCOLKEY8".getBytes(StandardCharsets.US_ASCII));
+        ByteBuffer buffer = ByteBuffer.allocate(8 + 4 * 4 + 9 * 4 + 4 + name.length + 4 + 8 + 12 + 4 + camera.length + 16 + 4 * gamma.length).order(ByteOrder.LITTLE_ENDIAN);
+        buffer.put("MCOLKEY9".getBytes(StandardCharsets.US_ASCII));
         buffer.putInt(2).putInt(cct);
         for (float v : ccm) buffer.putFloat(v);
-        buffer.putInt(0).putInt(0);
+        buffer.putInt(0).putInt(gamma.length);
+        for (float v : gamma) buffer.putFloat(v);
         buffer.putInt(name.length).put(name);
         buffer.putFloat(ev);
         buffer.putFloat(tone).putFloat(colour);

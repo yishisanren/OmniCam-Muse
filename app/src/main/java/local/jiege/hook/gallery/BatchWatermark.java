@@ -422,6 +422,8 @@ public final class BatchWatermark {
     }
 
     private static void post(Context context, android.app.Notification.Builder builder) {
+        if (context.checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+                != android.content.pm.PackageManager.PERMISSION_GRANTED) return;
         try {
             context.getSystemService(android.app.NotificationManager.class).notify(NOTIFICATION, builder.build());
         } catch (Throwable error) {

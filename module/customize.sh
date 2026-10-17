@@ -1,6 +1,13 @@
 # Settings app and hooks: install the APK this module ships while the module is flashed, so LSPosed
 # points at it before the reboot that activates the module. A failed install (e.g. a different
 # signing key) is left as it is and logged to install.log; the installed app is never uninstalled.
+. "$MODPATH/device-profile.sh"
+muse_device_matches || abort 'Unsupported model, firmware or camera build; refusing activation.'
+if [ -d /data/adb/modules/omnicam_aura_x9spro ] && [ ! -f /data/adb/modules/omnicam_aura_x9spro/disable ]; then
+    abort 'Disable OmniCam Aura before installing Muse; its files and hooks must not run together.'
+fi
+ACTIVE_CAMERA=$(pm path com.oplus.camera 2>/dev/null)
+[ "$ACTIVE_CAMERA" = 'package:/product/app/OplusCamera/OplusCamera.apk' ] || abort 'Camera APK path changed; adaptation must be refreshed.'
 PACKAGE=local.jiege.camera
 APK=$(ls "$MODPATH"/omnicam-muse-*.apk 2>/dev/null | head -n 1)
 STAGED=/data/local/tmp/omnicam-muse-module.apk

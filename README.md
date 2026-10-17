@@ -1,128 +1,118 @@
-# OmniCam Muse
+# OmniCam Muse · Find X9s Pro
 
-**OPPO Find X9 Ultra（PMA110）的相机增强模块。** 当前版本 Muse 4.0.0，适配相机 7.006.119。
+基于 [OmniCam-Muse](https://github.com/benbaobaoshigemi/OmniCam-Muse) 4.0.0，固定上游提交 `8f373e10b17c95532a3ff2f41c4777ca797da947`。本分支适配 OPPO Find X9s Pro，保留 MTK 原始相机管线。
 
-Muse 深入原厂 HAL、相机框架和成像链路，重构画质、色彩与交互逻辑，并补回被机型策略拆开的模式与调色资产。
+当前适配版本：**4.0.0-x9spro.2**。已安装到目标真机。大师色彩、进一步柔化和实验功能的实测范围见下表；本版本保留候选标记。
 
-Muse 由 KernelSU 模块和 LSPosed 设置应用组成：模块通过绑定挂载覆盖 `/odm` 下的相机配置与资源，钩子和原生库在相机、相册进程内工作。停用模块即可完整还原。
+下载：[4.0.0-x9spro.2 Release](https://github.com/yishisanren/OmniCam-Muse/releases/tag/v4.0.0-x9spro.2)，包含配对 APK、KernelSU ZIP 和 SHA256SUMS。具体实测范围与限制见 [发行说明](docs/RELEASE_NOTES_4.0.0-x9spro.2.md)。
 
-## 功能
+## 支持环境
 
-### 画质
+| 项目 | 当前适配目标 |
+| --- | --- |
+| 机型 / 平台 | Find X9s Pro · PME110 / MT6993 |
+| 系统 | PME110_17.0.0.103(CN01)，Android 17 / API 37 |
+| 系统相机 | 7.006.121，产品分区原始 APK |
+| 相册 | 17.10.7 |
+| 模块 | KernelSU + Mountify；LSPosed 2.2.1（7927） |
+| APK / KernelSU ID | `local.jiege.camera` / `omnicam_muse_x9spro` |
 
-- **拍照模式自然化**：关闭 AI 细节增强（文字和纹理不再被网络重绘，头发锐化一并关闭）、关闭局部对比度增强（LCE）、进一步柔化，三项分别开关。柔化不作用于大师模式和理光模式。
-- **25MP 直出**：放宽 25MP 自动切换的照度、ISO、温度和运动条件，配合相机设置中的"超清优先"，明显提高 25MP 直出的触发率。
-- **哈苏超清 200MP**：解除人脸识别门禁。没有大人脸的画面也走真 200M 全像素读出，1.0×、光线充足、非 HDR 等其余条件保持原厂。
+固件、相机 APK 或核心资源不匹配时停止激活。其他系统和相机版本需要重新适配。
 
-### 大师色彩
+## 机型适配
 
-八个色彩家族，可以混合进原厂大师色彩，也可以完全替换。
+- 保留本机相机 ID、传感器调校、原始算法管线、ISP、gamma 和 `libAlgoInterface.so`。
+- GR/POP 从本机已有模式派生，使用本机 BasicTone 作为 X9 后端；保留本机 15 / 23 / 65 mm 镜头关系。
+- GR native 地址受本机 ELF Build ID 约束；相机启动前验证 APK 与配对资源指纹。
+- GR 保留 MTK 原生 Meishe V2 硬件缓冲区管线；不套用旧 V1 节点，避免绿色废片。验收同时检查成片内容，不能只检查 JPEG 解码成功。
+- 25MP 放宽改为 MTK 的三个普通拍照节点，不导入 Ultra 的 lighthouse 配置；保留镜头、2DOL、闪光等硬件条件。开关关闭时使用原生配置。
+- 本机 2 亿像素原生决策没有人脸门槛，因此不提供多余的解除开关；保留光线、ISO、HDR 等系统条件。
+- 大师色彩使用本机三个后摄的 Camera2 公开 ForwardMatrix 和中性 HueSatMap，替换 Ultra 的 Adobe DCP 前置数据；未进行色卡准确度标定。
+- 使用四个相机目录只读 OverlayFS；Mountify 遮挡 ColorOS 原厂相机 SDK 登记时，额外恢复原厂权限目录的只读挂载，校验原厂 SDK 与登记文件指纹。资源分发完成前不启动 Hook，安装和资源分发保留回退资料。
+- 不删除相机数据库，不替换系统音频策略，不修改其他 LSPosed 模块。
 
-| 家族 | 内容 |
-|---|---|
-| OPPO | 原厂大师色彩，可选 Find X9 Ultra 或 Find X7 Ultra |
-| 基础 | 场景色彩经 Adobe Standard 标定，只套一条传输曲线：标准、直通、Rec.709、Gamma |
-| HNCS | 哈苏自然色彩，色彩映射与色调曲线分别选择"标准"或"复制" |
-| Lumix | 松下 S9 的 15 种照片风格，含 L.ClassicNeo、709 Like、Cinelike D2 / V2、Flat 与多种单色 |
-| 胶片 | Spektrafilm 的 20 种胶片：负片可搭配 8 种相纸或电影拷贝，反转片直接扫描，CMY 密度分别可调 |
-| Canon | EOS R5 的标准、人像、风光、中性、可靠设置、单色 |
-| Darktable | Sigmoid、Filmic、AgX 色调映射，黑白点、趾部、肩部、对比度与色相保持可调 |
-| Leica M9 | 徕卡 M9 的色彩矩阵与色调渲染 |
+上游功能与实现说明保留在 [上游 README](docs/UPSTREAM_README.md) 和 [MODULE.md](docs/MODULE.md)。上游针对 Ultra 的硬件条件与验证结论不能直接作为本机验收结果。
 
-- **混合模式**：影调与色彩分别按权重混入原厂；**替换模式**：完全替换原厂。
-- **曝光对齐**：按中灰、中间调、高光或白点，把所选色彩对齐到原厂大师模式的曝光。
+## 当前验证状态
 
-### 大师模式效果栏补充
+| 检查 | 结果 |
+| --- | --- |
+| 原始配置差异与管线保留 | 通过 |
+| 相机 / 相册符号定位 | 254 / 31，全部匹配 |
+| 色彩资源目录 | 189 个 look、148 个 lattice，通过 |
+| JVM 离线测试 | 4 组全部通过 |
+| Release 构建 / Android lint | 通过，lint 0 error |
+| 真机启动、挂载与作用域 | 重启通过，原厂相机 SDK 登记恢复；相机自身命名空间 52 项资源与四个只读 ODM 挂载通过 |
+| 相机 / 相册注入 | 254 / 31 个符号，注入状态正常 |
+| 普通照片 / GR / POP | 成片完整解码，GR 正片、黑白均通过；零平面绿片已修复 |
+| 哈苏超清 5000 万像素 | 6144 × 8160，通过 |
+| 2 亿像素标准 / 清透 | 均为 12288 × 16320，最终文件稳定、哈希一致、完整解码；清透请求确认为 `qing_tou.bin` |
+| 4K60 普通录像 | 最终版本实录 3840 × 2160，约 60fps，27 秒 / 1628 帧，时间戳连续，全片解码通过 |
+| 自然化 / 25MP 放宽 | 自然化编辑配置已被底层读取；普通照片输出 4416 × 5888。未做画质提升量化与所有门槛场景对照 |
+| 大师色彩 | MTK 动态 gamma 与四表 LMT；HNCS 三颗后摄、主摄 Film Portra、Lumix 单色和 0/50/100% 混合通过；未逐一验证全部 look |
+| 进一步柔化 | 本机 GDF 节点 0/50/100% 参数及成片通过；大师、GR、50MP 隔离通过 |
+| 物理柔光 HDF / 黑柔 / 白柔 | 本轮候选三档 P010 处理及最终成片通过，均为 4352 × 5780；未完成原厂同档对照和光学标定 |
+| 额外颗粒 | 标准滤镜强度 86 与重置 0、清透强度 100 下大小 0/100 均通过；修复非胶片滤镜漏传颗粒类型，最终像素确认效果生效；未逐一验证所有滤镜 |
+| 和光物理胶片 | 开启、关闭均完成 3072 × 4080 实拍，保存、解码及目视检查通过；未做光学标定 |
+| XPAN 显影实况 | 实拍、相册按钮回放、另存视频通过；85 帧 / 2.83 秒显影动画与 AAC 快门声完整，最终 JPEG 2912 × 7872 |
+| XPAN 取景净化 | 小窗、大窗暗边分别开关及隔离通过；拍摄显影动画关闭通过，实况文件仍保留 85 帧显影视频 |
+| 4K60 普通视频滤镜 | 反差黑白实录 2160 × 3840、26.37 秒 / 1586 帧，约 60.15fps；抽帧确认黑白效果，全片解码通过 |
+| 专业视频 ISZ / OLog2 | 主摄 1→2×、长焦 2.8→5.6×的原厂传感器场景切换已核对；5.6× SDR 与 2× O-Log2 的 4K30 实录通过，后者确认为 HEVC Main 10 / 10bit |
 
-- **颗粒**：强度与大小两把尺独立调节，交互与专业模式的色温、色调一致。所有滤镜可用，包括没有 LUT 的"标准"，数值按滤镜分别保存。
-- **对比度**：-100～100，采用理光 GR 的对比度曲线，作用在原厂影调之前。
-
-### 大师滤镜
-
-- **扩展滤镜**：旧版经典、徕卡、富士、理光与胶片模拟。
-- **列表管理**：长按拖动排序，随意显示或隐藏；隐藏的滤镜，其预设照常可用。
-- **跨模式同步**：拍照、人像与哈苏超清共用大师滤镜的顺序与显示状态。
-- **特殊效果**：霓虹套用 CineStill 800T 风格的光晕与颗粒，和光套用 Portra 的高光溢光。
-- **导入与备份**：批量导入 Rec.709 `.cube` LUT，配置可备份与恢复。
-
-### 光学模拟
-
-- **物理柔光**：三挡柔光分别替换为实体滤镜的光学模拟：弱挡 HDF、中挡 1/4 黑柔、强挡白柔。散射在场景光上计算，高光溢散与实体滤镜一致。
-- **和光物理胶片**：按柯达实测锐度模拟 Portra 400 的乳剂散射、光晕与边缘效应，作用于成片。
-
-### 模式
-
-- **理光 GR**：移植自 realme GT8，含影调、焦距条、快照对焦与相机、相册水印；补齐 GR 快门声与长曝光提示音；GR 水印可单独关闭；模式位置可长按拖动调整。
-- **POP 复古**：移植自 Reno16，可在 SDR（偏亮的 CCD 风味）与 Ultra HDR 之间切换；光线充足时可输出中像素，画面有人脸时保持原尺寸。
-- **X10 系列**：调色盘，以及清透、琥珀两款滤镜。
-- **哈苏超清**：补齐滤镜、调色盘与柔光入口。
-- **XPAN**：照片可存为实况，播放负片显影动画并带原厂 XPAN 快门声；取景框的大小遮罩与显影动画分别可关；XPAN 水印只在 XPAN 模式出现。
-- **移轴模式**。
-
-### 视频
-
-- **4K / 60fps 滤镜**：普通视频在 4K、60fps 下保留滤镜，不再降到 1080p30。
-- **专业视频 ISZ**：解禁传感器内变焦（主摄 2×、长焦 6×），O-Log2 同样可用。
-
-### 相册
-
-- **重新编辑**：相机拍摄的滤镜与调色盘可在相册中重新编辑，Muse 滤镜与大师滤镜进入相册滤镜列表；理光模式照片可编辑 GR 水印。
-- **水印**：哈苏、LUMO、理光水印对所有照片开放，截图等无机型信息的照片自动补上本机名称；Muse 滤镜与导入滤镜在水印上显示自己的名称。
-- **批量编辑水印**：多选照片后从"更多"进入，在第一张选定样式，其余照片在后台自动套用，可离开相册，通知实时显示进度；选"无"即批量去除水印。
-- **地址跳转**：照片详情中点击地址，在地图应用中打开拍摄位置。
-
-### 拍摄习惯
-
-- **快门声**：静音、振动模式下照常播放，可分别开关，音量可单独设置。
-- **按模式记忆**：闪光灯与实况开关由每个模式各自记住。
-- **快启键**：直接进入指定模式，包括大师、GR 等原厂快启列表没有的模式，不跟随上次使用的模式。
-- **机型伪装**：水印与成片 EXIF 中的机型可替换为自定义预设。
-
-### 设置应用
-
-- **注入状态**：逐项检查 LSPosed、KSU 挂载、相机与相册注入、符号匹配，全部正常时卡片变绿。
-- **即时生效**：任何设置改动后都会在后台结束相机进程，回到相机即为新设置。
-- **维护**：一键重启相机、相册；持续记录系统日志，复现问题后连同相机日志一并导出。
+媒体检查针对最终内容，包含实际尺寸、传输前后哈希与完整解码，并检查已复现的 GR 绿色异常。大师色彩读取本机实际 gamma 并烘焙对应色表；无有效元数据时保留原厂处理。本机公开矩阵不能代替色卡精校，柔光为计算模拟。验收详情见 [PORT_STATUS.md](docs/PORT_STATUS.md)。
 
 ## 安装
 
-需要已 root（KernelSU）并安装 LSPosed。
+1. 备份当前 Aura 模块、LSPosed 状态和相机专用资源。不要清除相机或相册数据。
+2. 停用 Aura 的 KernelSU 模块和 LSPosed 开关。
+3. 刷入 `OmniCam-Muse-4.0.0-x9spro.2-KSU.zip`，其中包含同版已签名设置 APK；签名不一致时保留原有应用并报告安装失败。
+4. 在 LSPosed 启用 OmniCam Muse，作用域选择 **系统框架、相机、相册**。
+5. 重启并解锁，使只读挂载与资源分发生效。安装程序不自动重启手机。
+6. 打开 Muse 查看注入状态，再进入相机。新设置会在重新打开相机后生效。
 
-1. 构建得到 `OmniCam-Muse-<版本>-KSU.zip`（见"构建"）。
-2. 在 KernelSU 管理器中刷入模块（ID `ricoh_pop_x9u`）并重启。模块自带设置应用（包名 `local.jiege.camera`），刷入时一并安装。
-3. 在 LSPosed 中启用 OmniCam Muse，作用域勾选**系统框架、相机、相册**。
-4. 强制停止相机后重新打开。
-
-设置入口在桌面的 OmniCam Muse 应用，或 LSPosed 中的模块页。需要还原时，在 KernelSU 管理器中停用模块并重启，所有挂载随之撤销。
+完整操作边界与回退方案见 [INSTALL_PLAN.md](docs/INSTALL_PLAN.md)。Aura 与 Muse 不应同时运行。
 
 ## 构建
 
-环境：Windows、JDK 17、Android SDK 37、NDK 29.0.14206865、CMake 3.22.1、Python（含 numpy、pycryptodome）、Git for Windows。在 `local.properties` 中写入 `sdk.dir=…`（已忽略）。
+需要 JDK 21、Android SDK 37、NDK 29.0.14206865、CMake 3.22.1，以及含 numpy、cryptography 的 Python 3。Gradle/Maven 依赖由 wrapper 获取。
 
-```powershell
-$env:OMNICAM_PYTHON = 'python'
-.\build.ps1
+首次准备：
+
+```sh
+export JAVA_HOME=/path/to/jdk21
+export ANDROID_HOME=/path/to/android-sdk
+export MUSE_PYTHON=/path/to/python3
+export MUSE_DEVICE_SERIAL=your-device-serial
+"$MUSE_PYTHON" tools/snapshot_device.py
+adb -s "$MUSE_DEVICE_SERIAL" pull /product/app/OplusCamera/OplusCamera.apk evidence/device-20261017/OplusCamera-7.006.121.apk
+"$MUSE_PYTHON" tools/read_camera_profiles.py
+"$MUSE_PYTHON" tools/create_signing.py
 ```
 
-`build.ps1` 依次执行色彩目录检查、离线测试、脚本语法检查与 `assembleRelease`。
+本机私有快照、凭据、照片和日志均位于忽略目录中，不能提交。生成目标配置需要本机快照；上游 Git 对象用于取得原始功能增量。
 
-- **签名**：根目录放有 `port.keystore`（已忽略），或设置了 `OMNICAM_KEYSTORE` 时，读取 `OMNICAM_STORE_PASSWORD`、`OMNICAM_KEY_ALIAS`、`OMNICAM_KEY_PASSWORD` 签名，并打包出 `OmniCam-Muse-<版本>-KSU.zip`；否则只产出未签名 APK。
-- 证书与密码不入库。不同证书签名的 APK 不能直接覆盖安装。
+```sh
+sh tools/build_x9spro.sh
+```
 
-## 适配其他机型
+产物位于 `dist/`，附 `SHA256SUMS`。签名密钥 `port.keystore` 和私有 `evidence/signing.env` 仅保存在本机；后续升级须沿用同一身份。也可通过上游 `OMNICAM_KEYSTORE` 等环境变量使用自己的密钥。
 
-欢迎参考本项目为其他机型适配。但很多功能改动的是底层配置：`/odm` 下的相机配置、调色与 LUT 资源、HAL 决策节点和原生库，它们与机型和相机版本绑定，不能照搬。适配前请先阅读 `docs/MODULE.md` 中各功能的原理与涉及文件，再对照目标机型自己的配置逐项核对。
+## 回退
 
-## 目录
+停用 Muse，恢复备份的相机专用资源与配置，再恢复 Aura 自身的启用状态和作用域并重启。只恢复本次变更的模块和资源，保留照片及其他模块设置。私有备份目录由安装记录列出。
 
-| 路径 | 内容 |
-|---|---|
-| `app/` | 设置应用与钩子：Java（`hook/*`）、Kotlin（`ui/*`）、C++（`cpp/*`，大师色彩引擎 `master_*`、柔光 `soft_light*`） |
-| `module/` | KSU 模块：脚本、`payload/` 配置与资源、`system/odm/lib64/` 库 |
-| `tools/` | 资源生成与离线测试：`mastercolor/`（大师色彩）、`softlight/`（柔光权重）、`symbols/`（混淆符号特征）、`offline_tests/` |
-| `tools/refs.py` | 仓库外参考资料的位置（可用 `MUSE_REFS` 修改根目录） |
-| `docs/` | `MODULE.md`：各功能的原理与涉及文件；`DEV_NOTES.md`：设备操作与排查 |
+## 后续适配与 Skill
 
-## 许可证与致谢
+[omnicam-x9spro-port](skills/omnicam-x9spro-port/SKILL.md) 收录了源码合并、MTK 管线适配、签名构建、拍摄验收、设置恢复、回退和发行流程，以及本轮遇到的问题和修复依据。可将整个 `skills/omnicam-x9spro-port` 目录安装到自己的 Codex skills 目录，使用 `$omnicam-x9spro-port` 调用；Skill 目录自带行为测试。
 
-本项目以 [GPL-3.0](LICENSE) 发布。Lumix、胶片、Canon、Darktable 等色彩引擎基于 [PhotonCamera](https://github.com/bjzhou/PhotonCamera)，胶片模拟来自 [Spektrafilm](https://github.com/andreavolpato/spektrafilm)。第三方来源及其许可见 [NOTICE.md](NOTICE.md)。
+已验收上游基线记录在 [maintenance/upstream.json](maintenance/upstream.json)。检查器比较上游 main 提交和最新公开 Release（含预发布及资产变化），不会安装手机或自动推进验收基线：
+
+```sh
+python3 skills/omnicam-x9spro-port/scripts/check_upstream.py --workspace "$PWD" --output evidence/maintenance/upstream-latest.json
+```
+
+更新按“发现 → 构建 → 真机验收 → 发布”推进。手机未连接或无法独占时保留候选，待完成实拍再提醒更新。检查失败会明确报错，不能当作没有更新。
+
+## 许可与致谢
+
+本项目沿用上游 **GPL-3.0**，保留 [NOTICE.md](NOTICE.md) 和 [LICENSES](LICENSES)。本机配置合并、固件守卫和挂载方案复用此前 Aura 的 MTK 适配实现，相关 MIT 许可保留在 [LICENSES/OmniCam-Aura-MIT.txt](LICENSES/OmniCam-Aura-MIT.txt)。

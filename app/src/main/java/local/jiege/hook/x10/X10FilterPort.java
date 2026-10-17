@@ -268,7 +268,7 @@ public final class X10FilterPort {
             if (view == null) continue;
             boolean isTitle = false;
             try {
-                isTitle = view.getId() > 0 && "effect_style_filter_hint".equals(view.getResources().getResourceEntryName(view.getId()));
+                isTitle = view.getId() != android.view.View.NO_ID && view.getId() != 0 && "effect_style_filter_hint".equals(view.getResources().getResourceEntryName(view.getId()));
             } catch (Resources.NotFoundException notNamed) {
                 // a view without a resource name is the label
             }

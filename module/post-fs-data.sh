@@ -1,5 +1,5 @@
 #!/system/bin/sh
-# Bind the tested POP camera directories and GR ISP files.
+# Merge this firmware's own configuration and portable GR/POP resources.
 MODDIR=${0%/*}
 LOG=$MODDIR/bind.log
 set -u
@@ -56,12 +56,19 @@ bind_merged_dir() {
 
 : > "$LOG"
 log "begin"
+. "$MODDIR/device-profile.sh"
+muse_device_matches || exit 0
+if [ -f /data/adb/modules/mountify/metamount.sh ] && [ ! -e /data/adb/modules/mountify/disable ] &&
+   ! { [ -x /data/adb/modules/nomount/bin/nm ] && [ ! -e /data/adb/modules/nomount/disable ]; }; then
+    # On this Mountify setup, the camera namespace drops individual bind mounts.
+    # post-mount.sh stages both configuration and resources on guarded ext4 overlays.
+    log "configuration and resources deferred to camera overlays"
+    exit 0
+fi
 
-for NAME in camera_unit_config camera_unit_feature_config.protobuf oplus_camera_config oplus_camera_algo_switch_config oplus_camera_aps_config oplus_camera_preview_decision_config.json; do
+for NAME in camera_unit_config camera_unit_feature_config.protobuf oplus_camera_config oplus_camera_algo_switch_config oplus_camera_aps_config; do
     bind_file "$MODDIR/payload/$NAME" "/odm/etc/camera/config/$NAME"
 done
-# Forced shutter sound stream at the system volume curve (see tools/patch_audio_volumes.py).
-bind_file "$MODDIR/payload/audio_policy_volumes.xml" /odm/etc/audio/audio_policy_volumes.xml
 
 bind_merged_dir /odm/etc/camera/meishe_lut "$MODDIR/payload/meishe_lut" "$MODDIR/merged/meishe_lut" /odm/etc/camera/meishe_lut
 
@@ -79,47 +86,4 @@ log "host_film=$(ls -l /odm/etc/camera/meishe_lut/fuji-nc.bin 2>&1)"
 log "retro_ini=$(ls -l /odm/etc/camera/basictone/setting_Retro/SimTool_Master.ini 2>&1)"
 log "host_setting=$(ls -d /odm/etc/camera/basictone/setting 2>&1)"
 
-for LENS in main wide tele ultratele; do
-    NAME="com.qti.tuned.lighthouse${LENS}.bin"
-    SOURCE="$MODDIR/payload/isp/$NAME"
-    TARGET="/odm/lib64/camera/$NAME"
-    chown root:root "$SOURCE"
-    chmod 0644 "$SOURCE"
-    chcon u:object_r:vendor_file:s0 "$SOURCE" 2>>"$LOG" || true
-    if mount --bind "$SOURCE" "$TARGET" >>"$LOG" 2>&1; then
-        log "isp bind ok $TARGET"
-    else
-        log "isp bind FAIL $TARGET"
-    fi
-done
-for NAME in gamma_preview_sdr_conf.json gamma_quick_sdr_conf.json gamma_preview_hdr_conf.json; do
-    bind_file "$MODDIR/payload/gamma/$NAME" "/odm/etc/camera/$NAME"
-done
-# Pro video ISZ (2x main, 6x tele; O-Log2 too): stock sets the ISO gate of rows 25-40 to 0/0,
-# which DoIzoomStable() can never pass; -1 means "no ISO check", like the normal video rows.
-# Patched from the live file on every boot. Touch $MODDIR/disable_pro_video_isz to skip.
-HWCFG=/odm/etc/camera/CameraHWConfiguration.config
-HWOUT=$MODDIR/merged/CameraHWConfiguration.config
-if [ -f "$MODDIR/disable_pro_video_isz" ]; then
-    log "pro video isz disabled"
-elif [ -f "$HWCFG" ]; then
-    mkdir -p "$MODDIR/merged"
-    awk -F';' -v OFS=';' '
-        /^\[/ { section = $0 }
-        section == "[InsensorZoom]" && match($0, /^[ \t]*iZoomSettins\[[0-9]+\]/) {
-            row = $0; sub(/^[ \t]*iZoomSettins\[/, "", row); sub(/\].*/, "", row)
-            if (row + 0 >= 25 && row + 0 <= 40 && NF == 14 && $12 + 0 == 0 && $13 + 0 == 0 && $12 ~ /^[ \t]*0[ \t]*$/ && $13 ~ /^[ \t]*0[ \t]*$/) {
-                $12 = "     -1"; $13 = "     -1"; patched++
-            }
-        }
-        { print }
-        END { print patched + 0 > "/dev/stderr" }
-    ' "$HWCFG" > "$HWOUT" 2> "$MODDIR/merged/isz_count"
-    COUNT=$(cat "$MODDIR/merged/isz_count" 2>/dev/null)
-    if [ "$COUNT" = "16" ]; then
-        bind_file "$HWOUT" "$HWCFG"
-    else
-        log "pro video isz skipped, patched rows=$COUNT (expected 16)"
-    fi
-fi
 log "end"

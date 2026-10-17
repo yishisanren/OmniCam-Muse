@@ -216,11 +216,9 @@ private fun LazyListScope.shootItems(store: SettingsStore, cardModifier: Modifie
                 title = "哈苏超清滤镜与调色盘",
                 summary = "使用拍照模式的滤镜、调色盘和柔光，入口在取景框角落",
             )
-            SettingSwitch(
-                store = store,
-                key = ModuleSettings.HIGH_PIXEL_200M_NO_FACE,
-                title = "哈苏超清200MP解除人脸识别门禁",
-                summary = "画面里没有大人脸也走真 200M 读出。仍需 1.0×、光线充足、非 HDR",
+            BasicComponent(
+                title = "2 亿像素原生拍摄",
+                summary = "本机系统没有人脸识别限制；是否采用 2 亿像素读取由系统根据光线、ISO 和 HDR 状态决定",
             )
         }
     }
