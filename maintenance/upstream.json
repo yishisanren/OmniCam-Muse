@@ -6,10 +6,10 @@
   "accepted_upstream_release": null,
   "target_repository": "yishisanren/OmniCam-Muse",
   "target_branch": "find-x9s-pro",
-  "accepted_port_version": "4.0.0-x9spro.2",
-  "target_profile_sha256": "1039de4481f5dd6d1d1876347d4b019981ca7f032c324d4a9c39c49d223ac4e4",
+  "accepted_port_version": "4.0.0-x9spro.3",
+  "target_profile_sha256": "856287c56fa5f7d7452cccbb13efad8c4c19277bd7f335bc36887e1cf08e6789",
   "accepted_artifacts": {
-    "omnicam-muse-4.0.0-x9spro.2.apk": "716cb676fe753195efeff69b97c6cfb479d91972854f30fd9e83adf593813a7c",
-    "OmniCam-Muse-4.0.0-x9spro.2-KSU.zip": "c9566a81e7b24230548fe67e6a11a7646739c82ad5c90376dee2b37a5bc831fa"
+    "omnicam-muse-4.0.0-x9spro.3.apk": "705af1f5f8bc6fc570a0265b5cebe9dc2d5367536eeb02b6625ddf608faaca13",
+    "OmniCam-Muse-4.0.0-x9spro.3-KSU.zip": "30bf53a16bec74daffc2728b20d52d45f4767bc43f6d8e4716fb9dd7040550c2"
   }
 }
