@@ -15,8 +15,8 @@ android {
         applicationId = "local.jiege.camera"
         minSdk = 37
         targetSdk = 35
-        versionCode = 40002
-        versionName = "4.0.0-x9spro.2"
+        versionCode = 40003
+        versionName = "4.0.0-x9spro.3"
         ndk { abiFilters += "arm64-v8a" }
         externalNativeBuild {
             cmake { arguments += listOf("-DANDROID_STL=c++_static") }

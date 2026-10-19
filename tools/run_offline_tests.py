@@ -29,12 +29,14 @@ def main():
     test_root = ROOT / 'tools/offline_tests'
     src = ROOT / 'app/src/main/java/local/jiege'
     sources = list((src / 'hook/filters').glob('*.java')) + list((src / 'lut').glob('*.java'))
+    sources.append(src / 'hook/gr/GalleryStyleAssets.java')
     for name in ['Log', 'Diagnostics', 'Settings', 'Symbols', 'SymbolSearch']:
         sources.append(src / 'hook/common' / (name + '.java'))
     for name in ['DiagnosticsContract', 'MasterFilterContract', 'MasterFilterStore', 'ModuleSettings',
                  'LaunchModes', 'ModelPresets', 'MasterLooks']:
         sources.append(src / 'settings' / (name + '.java'))
-    tests = ['FiltersOfflineTest', 'LutBakerOfflineTest', 'StoreOfflineTest', 'MasterLooksOfflineTest']
+    tests = ['FiltersOfflineTest', 'LutBakerOfflineTest', 'StoreOfflineTest', 'MasterLooksOfflineTest',
+             'GalleryStyleAssetsOfflineTest']
     sources.extend(test_root / (name + '.java') for name in tests)
     with tempfile.TemporaryDirectory(prefix='muse-jvm-tests-') as folder:
         cp = os.pathsep.join(map(str, [folder, ROOT / 'app/libs/api-82.jar',

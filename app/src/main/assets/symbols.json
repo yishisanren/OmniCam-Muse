@@ -2260,8 +2260,10 @@
   "Section.segmentSetup": {
    "kind": "method",
    "in": "com.oplus.gallery.photoeditor.editingvvm.watermarkCamera.WatermarkCameraSection",
-   "strings": [
-    "null cannot be cast to non-null type com.coui.appcompat.segmentbutton.COUISegmentButtonLayout"
+   "params": [],
+   "ret": "void",
+   "fields": [
+    "Lcom/oplus/gallery/photoeditor/R$id;->watermark_camera_type_segment:I"
    ]
   },
   "Section.onCreate": {

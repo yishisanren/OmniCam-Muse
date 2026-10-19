@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,14 +35,13 @@ import local.jiege.hook.common.Symbols;
 public final class GrGalleryWatermark {
     private static final String TAG = "RicohGrPort";
     private static final String STYLE_DIR = "/data/user/0/com.coloros.gallery3d/files/ricoh_gr_styles";
-    private static final String STYLE_ASSET_PREFIX = "watermark_master_styles/";
 
     private GrGalleryWatermark() {}
 
     public static void install(ClassLoader classLoader) {
         Symbols symbols = Symbols.get();
         hookFeatureGates(symbols);
-        hookStyleSource(symbols);
+        hookStyleAssets();
         hookArtwork(classLoader);
         hookEditorSection(symbols);
         hookModelTextLabel(symbols);
@@ -84,41 +84,29 @@ public final class GrGalleryWatermark {
             });
     }
 
-    /** Built-in GR style assets are replaced by the staged files. */
-    private static void hookStyleSource(final Symbols symbols) {
+    /** Read GR assets through the stable framework API, preserving Gallery's source objects. */
+    private static void hookStyleAssets() {
         try {
-            final Class<?> assetSource = symbols.cls("AssetStyleSource");
-            final Class<?> fileSource = symbols.cls("FileStyleSource");
-            XposedBridge.hookMethod(symbols.method("StyleLoader.resolve"),
-                new XC_MethodHook() {
+            XC_MethodHook open = new XC_MethodHook() {
                     @Override protected void beforeHookedMethod(MethodHookParam param) {
                         try {
-                            Object source = param.args[0];
-                            if (!assetSource.isInstance(source)) return;
-                            String fileName = styleFileName((String) symbols.get("AssetStyleSource.name", source));
-                            if (fileName == null) return;
-                            File style = new File(STYLE_DIR, fileName);
+                            File style = GalleryStyleAssets.resolve(new File(STYLE_DIR), (String) param.args[0]);
+                            if (style == null) return;
                             if (!style.isFile()) {
-                                Log.i(TAG, "gallery GR style missing " + style);
+                                Log.e(TAG, "gallery GR style missing " + style, new java.io.FileNotFoundException(style.getName()));
                                 return;
                             }
-                            param.setResult(XposedHelpers.newInstance(fileSource, style.getAbsolutePath()));
+                            param.setResult(new FileInputStream(style));
                         } catch (Throwable error) {
                             Log.e(TAG, "gallery GR style routing failed", error);
                         }
                     }
-                });
+                };
+            XposedHelpers.findAndHookMethod(AssetManager.class, "open", String.class, open);
+            XposedHelpers.findAndHookMethod(AssetManager.class, "open", String.class, Integer.TYPE, open);
         } catch (Throwable error) {
             Log.e(TAG, "gallery GR style routing setup failed", error);
         }
-    }
-
-    /** "watermark_master_styles/gr_style_N.json" -> "gr_style_N.json"; null for anything else. */
-    private static String styleFileName(String asset) {
-        if (asset == null || !asset.startsWith(STYLE_ASSET_PREFIX)) return null;
-        String name = asset.substring(STYLE_ASSET_PREFIX.length());
-        if (!name.startsWith("gr_style_") || !name.endsWith(".json") || name.indexOf('/') >= 0 || name.indexOf('\\') >= 0) return null;
-        return name;
     }
 
     /** realme GR logos and sketches, requested as drawables of the gallery, come from STYLE_DIR. */

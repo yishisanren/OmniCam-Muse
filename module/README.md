@@ -1,6 +1,6 @@
 # OmniCam Muse · Find X9s Pro
 
-目标：PME110 / MT6993，17.0.0.103(CN01)，相机 7.006.121，相册 17.10.7。
+目标：PME110 / MT6993，17.0.0.103(CN01)，相机 7.006.121，相册 17.10.36；17.10.7 已通过符号回放兼容检查。
 
 KernelSU ID：`omnicam_muse_x9spro`。配对 APK：`local.jiege.camera`。LSPosed 作用域：系统框架、相机、相册。
 

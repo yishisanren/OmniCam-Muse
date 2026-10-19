@@ -8,11 +8,17 @@
 
 安装前用新目录备份 APK、模块、LSPosed、原模块设置及涉及的相机设置；已有恢复点不覆盖。保留签名/UID，不清相机相册数据、不重建外部已移除的 Aura。snapshot_device.py 在私有挂载命名空间读原厂 ODM，先确认解除的是项目覆盖层，不能把当前移植层当原厂。
 
+先验证备份可读再安装：LSPosed的xposedsharedprefs可将设置重定向到/data/misc/apexdata下的prefs，不能假设app/shared_prefs存在。确认实际路径、归档成员与完整性；含tar报错文字的输出不算备份，不能据它声称前后哈希一致。
+
 ## 安装与挂载
 
 install_x9spro.py 为首次安装，upgrade_x9spro.py 是本轮升级夹具；下一版先改目标版本和证据目录。KSU 官方安装会装内置 APK；ColorOS 拦截 shell 流式安装时用已验证 root package-manager，不改系统安全配置。
 
 只有活动 profile 完全一致才可用 update_candidate_apk.py 做增量 APK 修复，否则完整配对升级。更新后重启相机/相册避免旧 APK Hook 缓存。启动层、SDK 登记或载荷变化时按当次授权重启手机。
+
+相册可独立更新：dumpsys package 同时列出 data 分区新版与 product 原版时，以 pm path 的活动 APK 为准。17.10.36 删除了段控件的 Kotlin cast 文案，需以资源字段加方法签名定位；回放17.10.7和17.10.36均须唯一匹配。R8可完全裁掉构造器，不能根据反编译Java没有显式构造器就假定存在无参构造器，更不能盲分配对象。`.3` 的GR样式使用仅命中本机GR JSON的AssetManager.open入口；必须实际应用并导出JPEG，31个符号匹配不代表样式能生成。
+
+APK更新后先读回LSPosed配置中模块APK路径已更新，再停止并重开相机/相册，避免package-replaced接收时序导致新进程未注入。健康状态应从真实Muse界面或其正常导出读取；切到模块UID运行content命令会因getContentProviderExternal权限失败，不能据此判断Hook失效，也不要为探测放宽Provider调用权限。
 
 check_boot.py --camera 检查相机自己的 mount namespace：四个只读 ODM 层、基线 52 资源及原厂 SDK 登记（未来数量以新 profile 为准）。Mountify 2.0.5 曾遮住 /product/etc 原厂相机 SDK 登记，即使停用全部 Hook 也闪退；恢复方案必须验证原厂 SDK/登记指纹。verify_installed.py 检查实际/内置 APK 与运行文件；KSU 正常删除 README/customize.sh 安装文件，不为凑哈希重建，其余差异不得放过。
 

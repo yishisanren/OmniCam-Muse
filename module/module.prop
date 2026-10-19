@@ -1,6 +1,6 @@
 id=omnicam_muse_x9spro
 name=OmniCam Muse · Find X9s Pro
-version=4.0.0-x9spro.2
-versionCode=40002
+version=4.0.0-x9spro.3
+versionCode=40003
 author=local-port
 description=PME110 17.0.0.103 / Camera 7.006.121: Muse 4.0 with original MTK camera pipelines. Paired LSPosed settings APK required.
