@@ -2,11 +2,9 @@
 
 基于 [OmniCam-Muse](https://github.com/benbaobaoshigemi/OmniCam-Muse) 4.0.0，固定上游提交 `8f373e10b17c95532a3ff2f41c4777ca797da947`。本分支适配 OPPO Find X9s Pro，保留 MTK 原始相机管线。
 
-当前本地修复版本：**4.0.0-x9spro.3**，已适配相册 17.10.36 并安装到目标真机；修复详情见 [相册兼容性记录](docs/GALLERY_17_10_36_FIX.md)。本版本保留候选标记。下表中的完整拍摄矩阵为 `.2` 的验收记录，`.3` 另完成相册专项回归。
+当前适配版本：**4.0.0-x9spro.3**，已适配相册 17.10.36 并安装到目标真机；修复详情见 [相册兼容性记录](docs/GALLERY_17_10_36_FIX.md)。本版本保留预发布候选标记。下表中的完整拍摄矩阵为 `.2` 的验收记录，`.3` 另完成相册专项回归。
 
-下载：[4.0.0-x9spro.2 Release](https://github.com/yishisanren/OmniCam-Muse/releases/tag/v4.0.0-x9spro.2)，包含配对 APK、KernelSU ZIP 和 SHA256SUMS。具体实测范围与限制见 [发行说明](docs/RELEASE_NOTES_4.0.0-x9spro.2.md)。
-
-`.3` 尚未发布到 GitHub；上面的公开 `.2` 不包含相册 17.10.36 兼容修复。
+下载：[4.0.0-x9spro.3 Release](https://github.com/yishisanren/OmniCam-Muse/releases/tag/v4.0.0-x9spro.3)，包含配对 APK、KernelSU ZIP 和 SHA256SUMS。具体实测范围与限制见 [发行说明](docs/RELEASE_NOTES_4.0.0-x9spro.3.md)。已安装 `.2` 的用户也应使用同版配对包升级，不能仅替换 APK 而保留旧的配对标记。
 
 ## 支持环境
 
@@ -67,7 +65,7 @@
 
 1. 备份当前 Aura 模块、LSPosed 状态和相机专用资源。不要清除相机或相册数据。
 2. 停用 Aura 的 KernelSU 模块和 LSPosed 开关。
-3. 刷入与目标相册版本对应的配对 KSU ZIP（当前本地修复包为 `OmniCam-Muse-4.0.0-x9spro.3-KSU.zip`），其中包含同版已签名设置 APK；签名不一致时保留原有应用并报告安装失败。
+3. 刷入与目标相册版本对应的配对 KSU ZIP（当前为 `OmniCam-Muse-4.0.0-x9spro.3-KSU.zip`），其中包含同版已签名设置 APK；签名不一致时保留原有应用并报告安装失败。
 4. 在 LSPosed 启用 OmniCam Muse，作用域选择 **系统框架、相机、相册**。
 5. 重启并解锁，使只读挂载与资源分发生效。安装程序不自动重启手机。
 6. 打开 Muse 查看注入状态，再进入相机。新设置会在重新打开相机后生效。

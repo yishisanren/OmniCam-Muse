@@ -23,7 +23,7 @@ sh tools/build_x9spro.sh
 
 当前 `tools/prepare_x9spro.py` 的 donor `git show` 和 `report.upstream_commit` 固定为已验收上游；候选更新需一起改为目标提交，并重新审查合并逻辑。`module/profile.json` 与 APK `assets/device_profile.json` 必须相同，原生库嵌入同一指纹。只改 README 版本不算适配。
 
-同时更新 APK versionCode/versionName、module.prop、service 的模式数据库版本及 profile。现有安装/升级/聚合脚本含 `.2/40002`、日期和案例白名单，属于本轮夹具，下一版必须改目标版本、输出目录和守卫，不能覆盖旧恢复点。构建失败不改变已验收状态；修改区域和核心拍摄必须有当前候选的真实证据。
+同时更新 APK versionCode/versionName、module.prop 及 profile；仅在模式/资源定义确有变化时更新 service 的模式数据库版本，纯相册Hook修复保持原值，避免无意义刷新相机数据库。现有安装/升级/聚合脚本含 `.2/40002`、日期和案例白名单，属于本轮夹具，下一版必须改目标版本、输出目录和守卫，不能覆盖旧恢复点。构建失败不改变已验收状态；修改区域和核心拍摄必须有当前候选的真实证据。
 
 ## 发布与公开回读
 
